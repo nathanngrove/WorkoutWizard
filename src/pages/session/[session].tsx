@@ -42,6 +42,7 @@ const Session: NextPage = () => {
     },
     {
       onSuccess(data) {
+        console.log(data);
         setExercises(data);
       },
     }
@@ -49,6 +50,18 @@ const Session: NextPage = () => {
 
   if (queryAllExercises.error) {
     return <p>{queryAllExercises.error.message}</p>;
+  }
+
+  function renderExerciseListing(
+    data: (ExercisesOnSessions & {
+      exercise: Exercise & {
+        sets: (SetsOnExercises & {
+          set: Set;
+        })[];
+      };
+    })[]
+  ) {
+    //TODO: Make checks for what we're passing into the ExerciseListing, and when to render an AddSet Component
   }
 
   return (

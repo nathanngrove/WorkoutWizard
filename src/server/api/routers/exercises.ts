@@ -1,3 +1,4 @@
+import { createReactQueryHooks } from "@trpc/react-query";
 import { createReactProxyDecoration } from "@trpc/react-query/shared";
 import { TRPCError } from "@trpc/server";
 import {
@@ -65,6 +66,42 @@ export const exercisesRouter = createTRPCRouter({
       }
 
       const { reps, weight, exerciseId } = input;
+
+      const existingSetOnExercise = await ctx.prisma.setsOnExercises.findFirst({
+        where: { exerciseId, set: { reps, weight } },
+      });
+
+      if (existingSetOnExercise) {
+        try {
+          return await ctx.prisma.setsOnExercises.update({
+            data: { amount: existingSetOnExercise.amount + 1 },
+            where: {
+              exerciseId_setId: {
+                exerciseId,
+                setId: existingSetOnExercise.setId,
+              },
+            },
+          });
+        } catch (e) {
+          throw e;
+        }
+      }
+
+      try {
+        return await ctx.prisma.setsOnExercises.create({
+          data: {
+            exercise: { connect: { id: exerciseId } },
+            set: {
+              connectOrCreate: {
+                create: { reps, weight },
+                where: { weight_reps: { reps, weight } },
+              },
+            },
+          },
+        });
+      } catch (e) {
+        throw e;
+      }
     }),
   getAllExercises: publicProcedure
     .input(getAllExercisesSchema)
