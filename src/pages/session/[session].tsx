@@ -52,18 +52,6 @@ const Session: NextPage = () => {
     return <p>{queryAllExercises.error.message}</p>;
   }
 
-  function renderExerciseListing(
-    data: (ExercisesOnSessions & {
-      exercise: Exercise & {
-        sets: (SetsOnExercises & {
-          set: Set;
-        })[];
-      };
-    })[]
-  ) {
-    //TODO: Make checks for what we're passing into the ExerciseListing, and when to render an AddSet Component
-  }
-
   return (
     <>
       <main>
@@ -87,7 +75,7 @@ const Session: NextPage = () => {
           <tfoot>
             <AddExercise
               sessionId={sessionId}
-              updateExercises={() => queryAllExercises.refetch}
+              updateExercises={() => queryAllExercises.refetch()}
             />
           </tfoot>
         </table>

@@ -51,7 +51,7 @@ model Exercise {
   name String @unique
 
   sets     SetsOnExercises[]
-  Sessions ExercisesOnSessions[]
+  sessions ExercisesOnSessions[]
 }
 
 model Set {
@@ -63,6 +63,8 @@ model Set {
 
   @@unique([weight, reps])
 }
+
+//Exercise needs to reference the ExercisesOnSessions exercise or something, because the exerciseId is the same for the same exercise on a different session. So all the sets for an exercise are being connected to the same exercise on a different session
 
 model SetsOnExercises {
   exercise   Exercise @relation(fields: [exerciseId], references: [id])

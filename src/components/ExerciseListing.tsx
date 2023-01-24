@@ -1,4 +1,5 @@
 import { Exercise, Set, SetsOnExercises } from "@prisma/client";
+import AddSet from "./AddSet";
 
 export default function ExerciseListing({
   exercise,
@@ -11,43 +12,30 @@ export default function ExerciseListing({
 }) {
   return (
     <>
-      <tr>
-        <td>{exercise.name}</td>
-        {set.map((set) => {
-          return (
-            <>
-              <td>{set.set.reps}</td>
-              <td>{set.set.weight}</td>
-            </>
-          );
-        })}
-      </tr>
-      {/* {sets.map((set, i) => {
+      {set.map((set, i) => {
         if (i === 0) {
           return (
-            <>
-              <tr>
-                <td>{exercise.name}</td>
-                <td>{set.reps}</td>
-                <td>{set.weight}</td>
-                <td></td>
-              </tr>
-            </>
+            <tr>
+              <td>{exercise.name}</td>
+              <td>{set.set.reps}</td>
+              <td>{set.set.weight}</td>
+              <td>{set.amount}</td>
+            </tr>
           );
         } else {
           return (
             <tr>
               <td></td>
-              <td>{set.reps}</td>
-              <td>{set.weight}</td>
-              <td></td>
+              <td>{set.set.reps}</td>
+              <td>{set.set.weight}</td>
+              <td>{set.amount}</td>
             </tr>
           );
         }
       })}
       <tr>
         <AddSet exerciseId={exercise.id} />
-      </tr> */}
+      </tr>
     </>
   );
 }

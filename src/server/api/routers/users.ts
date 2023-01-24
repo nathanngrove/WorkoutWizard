@@ -9,7 +9,7 @@ import {
   verifyOTPSchema,
 } from "../../../schema/user.schema";
 import { sendLoginEmail } from "../../../utils/mailer";
-import { createTRPCContext, createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 import { getBaseUrl } from "../../../utils/api";
 import { decode, encode } from "../../../utils/base64";
 import { signJWT } from "../../../utils/jwt";
@@ -140,7 +140,7 @@ export const usersRouter = createTRPCRouter({
       const deleted = await ctx.prisma.loginToken.delete({
         where: { userId: ctx.user.id },
       });
-      //TODO: remove cookie somehow
+      //ctx.res.flushHeaders();?
       return deleted;
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {

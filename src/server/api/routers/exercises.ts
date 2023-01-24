@@ -1,5 +1,3 @@
-import { createReactQueryHooks } from "@trpc/react-query";
-import { createReactProxyDecoration } from "@trpc/react-query/shared";
 import { TRPCError } from "@trpc/server";
 import {
   addExerciseSchema,
@@ -31,27 +29,24 @@ export const exercisesRouter = createTRPCRouter({
       }
 
       try {
-        return await ctx.prisma.exercisesOnSessions.create({
+        const addedExercise = await ctx.prisma.exercisesOnSessions.create({
           data: {
             exercise: {
-              connectOrCreate: {
-                create: {
-                  name,
-                  sets: {
-                    create: {
-                      set: {
-                        connectOrCreate: {
-                          create: { reps, weight },
-                          where: { weight_reps: { reps, weight } },
-                        },
-                      },
-                    },
-                  },
-                },
-                where: { name },
-              },
+              connectOrCreate: { create: { name }, where: { name } },
             },
             session: { connect: { id: sessionId } },
+          },
+        });
+
+        return await ctx.prisma.setsOnExercises.create({
+          data: {
+            exercise: { connect: { id: addedExercise.exerciseId } },
+            set: {
+              connectOrCreate: {
+                create: { reps, weight },
+                where: { weight_reps: { reps, weight } },
+              },
+            },
           },
         });
       } catch (e) {
@@ -120,6 +115,7 @@ export const exercisesRouter = createTRPCRouter({
               include: {
                 sets: {
                   include: { set: true },
+                  orderBy: { createdAt: "asc" },
                 },
               },
             },
