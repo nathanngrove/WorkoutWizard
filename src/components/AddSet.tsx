@@ -1,16 +1,34 @@
 import { useState } from "react";
 import { api } from "../utils/api";
+import { useQueryClient } from "@tanstack/react-query";
 
-export default function AddSet({ exerciseId }: { exerciseId: string }) {
+export default function AddSet({
+  exerciseId,
+  sessionId,
+}: {
+  exerciseId: string;
+  sessionId: string;
+}) {
+  const queryClient = useQueryClient();
+
   const [reps, setReps] = useState("");
   const [weight, setWeight] = useState("");
 
-  const { mutate, error } = api.exercises.addSetToExercise.useMutation();
+  const { mutate, error } = api.exercises.addSetToExercise.useMutation({
+    onSuccess: () => {
+      setReps("");
+      setWeight("");
+      queryClient.invalidateQueries();
+    },
+  });
 
   function addSet() {
-    mutate({ reps: parseInt(reps), weight: parseInt(weight), exerciseId });
-    setReps("");
-    setWeight("");
+    mutate({
+      reps: parseInt(reps),
+      weight: parseInt(weight),
+      exerciseId,
+      sessionId,
+    });
   }
 
   if (error) {

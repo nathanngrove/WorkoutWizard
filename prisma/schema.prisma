@@ -50,7 +50,6 @@ model Exercise {
   id   String @id @default(uuid())
   name String @unique
 
-  sets     SetsOnExercises[]
   sessions ExercisesOnSessions[]
 }
 
@@ -64,29 +63,29 @@ model Set {
   @@unique([weight, reps])
 }
 
-//Exercise needs to reference the ExercisesOnSessions exercise or something, because the exerciseId is the same for the same exercise on a different session. So all the sets for an exercise are being connected to the same exercise on a different session
-
 model SetsOnExercises {
-  exercise   Exercise @relation(fields: [exerciseId], references: [id])
-  exerciseId String // relation scalar field (used in the `@relation` attribute above)
-  set        Set      @relation(fields: [setId], references: [id])
-  setId      String // relation scalar field (used in the `@relation` attribute above)
-  amount     Int      @default(1)
-  createdAt  DateTime @default(now())
+  id                  String              @id @default(uuid())
+  exerciseOnSession   ExercisesOnSessions @relation(fields: [exerciseOnSessionId], references: [id])
+  exerciseOnSessionId String
+  set                 Set                 @relation(fields: [setId], references: [id])
+  setId               String
+  createdAt           DateTime            @default(now())
 
-  @@id([exerciseId, setId])
-  @@index([exerciseId])
+  @@index([exerciseOnSessionId])
   @@index([setId])
 }
 
 model ExercisesOnSessions {
+  id         String   @id @default(uuid())
   session    Session  @relation(fields: [sessionId], references: [id])
-  sessionId  String // relation scalar field (used in the `@relation` attribute above)
+  sessionId  String
   exercise   Exercise @relation(fields: [exerciseId], references: [id])
-  exerciseId String // relation scalar field (used in the `@relation` attribute above)
+  exerciseId String
   createdAt  DateTime @default(now())
 
-  @@id([sessionId, exerciseId])
+  setsOnExercises SetsOnExercises[]
+
+  @@unique([sessionId, exerciseId])
   @@index([sessionId])
   @@index([exerciseId])
 }

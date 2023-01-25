@@ -40,7 +40,7 @@ export const exercisesRouter = createTRPCRouter({
 
         return await ctx.prisma.setsOnExercises.create({
           data: {
-            exercise: { connect: { id: addedExercise.exerciseId } },
+            exerciseOnSession: { connect: { id: addedExercise.id } },
             set: {
               connectOrCreate: {
                 create: { reps, weight },
@@ -60,32 +60,14 @@ export const exercisesRouter = createTRPCRouter({
         throw new TRPCError({ code: "UNAUTHORIZED", message: "No user found" });
       }
 
-      const { reps, weight, exerciseId } = input;
-
-      const existingSetOnExercise = await ctx.prisma.setsOnExercises.findFirst({
-        where: { exerciseId, set: { reps, weight } },
-      });
-
-      if (existingSetOnExercise) {
-        try {
-          return await ctx.prisma.setsOnExercises.update({
-            data: { amount: existingSetOnExercise.amount + 1 },
-            where: {
-              exerciseId_setId: {
-                exerciseId,
-                setId: existingSetOnExercise.setId,
-              },
-            },
-          });
-        } catch (e) {
-          throw e;
-        }
-      }
+      const { reps, weight, exerciseId, sessionId } = input;
 
       try {
         return await ctx.prisma.setsOnExercises.create({
           data: {
-            exercise: { connect: { id: exerciseId } },
+            exerciseOnSession: {
+              connect: { sessionId_exerciseId: { exerciseId, sessionId } },
+            },
             set: {
               connectOrCreate: {
                 create: { reps, weight },
@@ -111,13 +93,10 @@ export const exercisesRouter = createTRPCRouter({
         const exercises = await ctx.prisma.exercisesOnSessions.findMany({
           where: { sessionId },
           include: {
-            exercise: {
-              include: {
-                sets: {
-                  include: { set: true },
-                  orderBy: { createdAt: "asc" },
-                },
-              },
+            exercise: true,
+            setsOnExercises: {
+              include: { set: true },
+              orderBy: { createdAt: "asc" },
             },
           },
           orderBy: { createdAt: "asc" },

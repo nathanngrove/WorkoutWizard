@@ -12,7 +12,7 @@ function LoginPage() {
   const user = useUserContext();
 
   if (user) {
-    router.push("/");
+    router.push("/dashboard");
     return <p>Redirecting...</p>;
   }
 

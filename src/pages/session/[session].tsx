@@ -1,12 +1,5 @@
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import {
-  Exercise,
-  ExercisesOnSessions,
-  Set,
-  SetsOnExercises,
-} from "@prisma/client";
 
 import { api } from "../../utils/api";
 import { useUserContext } from "../../context/user.context";
@@ -20,36 +13,20 @@ const Session: NextPage = () => {
 
   const sessionId = router.asPath.split("session/")[1] || "";
 
-  const [exercises, setExercises] = useState(
-    Array<
-      ExercisesOnSessions & {
-        exercise: Exercise & {
-          sets: (SetsOnExercises & {
-            set: Set;
-          })[];
-        };
-      }
-    >
-  );
-
   if (!user) {
     return <LoginForm />;
   }
 
-  const queryAllExercises = api.exercises.getAllExercises.useQuery(
-    {
-      sessionId,
-    },
-    {
-      onSuccess(data) {
-        console.log(data);
-        setExercises(data);
-      },
-    }
-  );
+  const { data, error, isLoading } = api.exercises.getAllExercises.useQuery({
+    sessionId,
+  });
 
-  if (queryAllExercises.error) {
-    return <p>{queryAllExercises.error.message}</p>;
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error.message}</p>;
   }
 
   return (
@@ -65,18 +42,18 @@ const Session: NextPage = () => {
             </tr>
           </thead>
           <tbody>
-            {exercises.map((exercise) => (
+            {data.map((exercise) => (
               <ExerciseListing
                 exercise={exercise.exercise}
-                set={exercise.exercise.sets}
+                set={exercise.setsOnExercises}
+                sessionId={sessionId}
               />
             ))}
           </tbody>
           <tfoot>
-            <AddExercise
-              sessionId={sessionId}
-              updateExercises={() => queryAllExercises.refetch()}
-            />
+            <tr>
+              <AddExercise sessionId={sessionId} />
+            </tr>
           </tfoot>
         </table>
       </main>

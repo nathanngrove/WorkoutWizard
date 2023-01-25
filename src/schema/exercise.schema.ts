@@ -15,6 +15,7 @@ export const addSetToExercise = z.object({
   reps: z.number(),
   weight: z.number(),
   exerciseId: z.string(),
+  sessionId: z.string(),
 });
 
 export type addExerciseInput = z.TypeOf<typeof addExerciseSchema>;

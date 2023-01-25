@@ -4,11 +4,13 @@ import AddSet from "./AddSet";
 export default function ExerciseListing({
   exercise,
   set,
+  sessionId,
 }: {
   exercise: Exercise;
   set: (SetsOnExercises & {
     set: Set;
   })[];
+  sessionId: string;
 }) {
   return (
     <>
@@ -19,7 +21,7 @@ export default function ExerciseListing({
               <td>{exercise.name}</td>
               <td>{set.set.reps}</td>
               <td>{set.set.weight}</td>
-              <td>{set.amount}</td>
+              <td></td>
             </tr>
           );
         } else {
@@ -28,13 +30,13 @@ export default function ExerciseListing({
               <td></td>
               <td>{set.set.reps}</td>
               <td>{set.set.weight}</td>
-              <td>{set.amount}</td>
+              <td></td>
             </tr>
           );
         }
       })}
       <tr>
-        <AddSet exerciseId={exercise.id} />
+        <AddSet exerciseId={exercise.id} sessionId={sessionId} />
       </tr>
     </>
   );

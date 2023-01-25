@@ -1,18 +1,22 @@
 import { useState } from "react";
 import { api } from "../utils/api";
+import { useQueryClient } from "@tanstack/react-query";
 
-export default function AddExercise({
-  sessionId,
-  updateExercises,
-}: {
-  sessionId: string;
-  updateExercises: Function;
-}) {
+export default function AddExercise({ sessionId }: { sessionId: string }) {
+  const queryClient = useQueryClient();
+
   const [exercise, setExercise] = useState("");
   const [reps, setReps] = useState("");
   const [weight, setWeight] = useState("");
 
-  const { mutate, error } = api.exercises.addExerciseToSession.useMutation();
+  const { mutate, error } = api.exercises.addExerciseToSession.useMutation({
+    onSuccess: () => {
+      setExercise("");
+      setReps("");
+      setWeight("");
+      queryClient.invalidateQueries();
+    },
+  });
 
   function addExercise() {
     mutate({
@@ -21,10 +25,6 @@ export default function AddExercise({
       reps: parseInt(reps),
       weight: parseInt(weight),
     });
-    setExercise("");
-    setReps("");
-    setWeight("");
-    updateExercises({ sessionId });
   }
 
   if (error) {
