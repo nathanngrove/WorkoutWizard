@@ -9,12 +9,19 @@ export default function AddExercise({ sessionId }: { sessionId: string }) {
   const [reps, setReps] = useState("");
   const [weight, setWeight] = useState("");
 
+  const getAllExercises = api.exercises.getAllExercises.useQuery(
+    {
+      sessionId,
+    },
+    { enabled: false }
+  );
+
   const { mutate, error } = api.exercises.addExerciseToSession.useMutation({
     onSuccess: () => {
       setExercise("");
       setReps("");
       setWeight("");
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries(getAllExercises);
     },
   });
 

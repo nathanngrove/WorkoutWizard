@@ -134,13 +134,12 @@ export const usersRouter = createTRPCRouter({
       throw new TRPCError({ code: "UNAUTHORIZED", message: "No user found" });
     }
 
-    console.log(ctx.user.id);
-
     try {
+      ctx.res.setHeader("Set-Cookie", serialize("token", "", { path: "/" }));
       const deleted = await ctx.prisma.loginToken.delete({
         where: { userId: ctx.user.id },
       });
-      //ctx.res.flushHeaders();?
+
       return deleted;
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {

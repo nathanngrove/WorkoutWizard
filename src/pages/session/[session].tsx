@@ -17,16 +17,16 @@ const Session: NextPage = () => {
     return <LoginForm />;
   }
 
-  const { data, error, isLoading } = api.exercises.getAllExercises.useQuery({
+  const getAllExercises = api.exercises.getAllExercises.useQuery({
     sessionId,
   });
 
-  if (isLoading) {
+  if (getAllExercises.isLoading) {
     return <p>Loading...</p>;
   }
 
-  if (error) {
-    return <p>{error.message}</p>;
+  if (getAllExercises.error) {
+    return <p>{getAllExercises.error.message}</p>;
   }
 
   return (
@@ -42,7 +42,7 @@ const Session: NextPage = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((exercise) => (
+            {getAllExercises.data.map((exercise) => (
               <ExerciseListing
                 exercise={exercise.exercise}
                 set={exercise.setsOnExercises}

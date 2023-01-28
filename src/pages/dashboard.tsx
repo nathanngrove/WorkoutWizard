@@ -18,7 +18,7 @@ const Dashboard: NextPage = () => {
   const queryAllSessions = api.sessions.getAllSessions.useQuery();
   const { mutate, error } = api.sessions.addSession.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries(queryAllSessions);
     },
   });
 
@@ -34,11 +34,13 @@ const Dashboard: NextPage = () => {
     return <p>{queryAllSessions.error.message}</p>;
   }
 
+  console.log(queryAllSessions.data);
+
   return (
     <>
       <main>
         <h1>Dashboard</h1>
-        {queryAllSessions.data.map((session, i) => {
+        {queryAllSessions.data.map((session) => {
           return (
             <Link key={session.id} href={`/session/${session.id}`}>
               {session.id}
