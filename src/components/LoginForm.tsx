@@ -6,9 +6,10 @@ import styled from "styled-components";
 
 import { api } from "../utils/api";
 import StatusMessage from "./StatusMessage";
-import StyledButton from "./styles/Button.styled";
-import StyledLink from "./styles/Link.styled";
-import Input from "./styles/StyledInput";
+import StyledButton from "./styles/StyledButton.styled";
+import StyledLink from "./styles/StyledLink.styled";
+import StyledInput from "./styles/StyledInput.styled";
+import StyledLabel from "./styles/StyledLabel.styled";
 
 function VerifyToken({ hash }: { hash: string }) {
   const router = useRouter();
@@ -39,19 +40,21 @@ const LoginForm: NextPage = () => {
   });
 
   return (
-    <>
-      <h1>Login</h1>
-      {error && error.message}
-      {success && <p>Check your email!</p>}
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          mutate({ email, redirect: router.asPath });
-        }}
-      >
-        <FlexContainer>
-          <label htmlFor="email">Email</label>
-          <Input
+    <Wrapper>
+      <Main>
+        <Heading>Log in</Heading>
+        <div>
+          {error && error.message}
+          {success && <p>Check your email!</p>}
+        </div>
+        <FlexContainer
+          onSubmit={async (e) => {
+            e.preventDefault();
+            mutate({ email, redirect: router.asPath });
+          }}
+        >
+          <StyledLabel htmlFor="email">Email</StyledLabel>
+          <StyledInput
             type="text"
             id="email"
             placeholder="johndoe@example.com"
@@ -59,22 +62,53 @@ const LoginForm: NextPage = () => {
               setEmail(e.target.value);
             }}
           />
+          <StyledButton type="submit">Log in</StyledButton>
         </FlexContainer>
-        <StyledButton type="submit">Login</StyledButton>
-      </form>
-      <p>
-        Don't have an account yet?{" "}
-        <Link href="/create-account" passHref>
-          <StyledLink>Create an account</StyledLink>
-        </Link>
-      </p>
-    </>
+        <TextCenter>
+          Don't have an account yet?
+          <br />
+          <Link href="/register" passHref>
+            <StyledLink>Create an account</StyledLink>
+          </Link>
+        </TextCenter>
+      </Main>
+    </Wrapper>
   );
 };
 
-const FlexContainer = styled.div`
+const Main = styled.div`
   display: flex;
   flex-direction: column;
+  background-color: var(--nuetral-100);
+  color: black;
+  border-radius: 10px;
+  width: 20rem;
+  padding: 1rem;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const FlexContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const TextCenter = styled.p`
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 1.25rem;
+`;
+
+const Heading = styled.h1`
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
 `;
 
 export default LoginForm;

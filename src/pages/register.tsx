@@ -3,9 +3,16 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { useState } from "react";
+import styled from "styled-components";
+import {
+  StyledButton,
+  StyledInput,
+  StyledLabel,
+  StyledLink,
+} from "../components/styles/StyledComponents.styled";
 import { api } from "../utils/api";
 
-const CreateAccount: NextPage = () => {
+const Register: NextPage = () => {
   const router = useRouter();
 
   const [firstName, setFirstName] = useState("");
@@ -19,11 +26,11 @@ const CreateAccount: NextPage = () => {
   });
 
   return (
-    <>
-      <main>
-        <h1>Create Account</h1>
+    <Wrapper>
+      <Main>
+        <Heading>Register</Heading>
         <p>{error && error.message}</p>
-        <form
+        <FlexContainer
           onSubmit={(e) => {
             e.preventDefault();
             mutate({
@@ -32,41 +39,84 @@ const CreateAccount: NextPage = () => {
             });
           }}
         >
-          <label htmlFor="firstName">First Name: </label>
-          <input
+          <StyledLabel htmlFor="firstName">First Name: </StyledLabel>
+          <StyledInput
             type="text"
             id="firstName"
+            placeholder="John"
             onChange={(e) => {
               setFirstName(e.target.value);
             }}
           />
           <br />
-          <label htmlFor="lastName">Last Name: </label>
-          <input
+          <StyledLabel htmlFor="lastName">Last Name: </StyledLabel>
+          <StyledInput
             type="text"
             id="lastName"
+            placeholder="Doe"
             onChange={(e) => {
               setLastName(e.target.value);
             }}
           />
           <br />
-          <label htmlFor="email">Email: </label>
-          <input
+          <StyledLabel htmlFor="email">Email: </StyledLabel>
+          <StyledInput
             type="email"
             id="email"
+            placeholder="johndoe@example.com"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
           />
           <br />
-          <button type="submit" disabled={isLoading}>
-            Create Account
-          </button>
-        </form>
-        Already have an account? <Link href="/login">Login here</Link>
-      </main>
-    </>
+          <StyledButton type="submit" disabled={isLoading}>
+            Register
+          </StyledButton>
+        </FlexContainer>
+        <TextCenter>
+          Already have an account?
+          <br />
+          <Link href="/login" passHref>
+            <StyledLink>Log in here</StyledLink>
+          </Link>
+        </TextCenter>
+      </Main>
+    </Wrapper>
   );
 };
 
-export default CreateAccount;
+const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: var(--nuetral-100);
+  color: black;
+  border-radius: 10px;
+  width: 20rem;
+  padding: 1rem;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const FlexContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const TextCenter = styled.p`
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 1.25rem;
+`;
+
+const Heading = styled.h1`
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
+`;
+
+export default Register;
