@@ -1,10 +1,15 @@
 import styled from "styled-components";
 
-const StyledButton = styled.button`
+interface ButtonProps {
+  background?: string;
+}
+
+const StyledButton = styled.button<ButtonProps>`
   font-size: 1.75rem;
   padding: 1rem;
-  color: var(--nuetral-100);
-  background-color: var(--accent-500);
+  color: ${({ color }) => (color ? color : "var(--nuetral-100)")};
+  background: ${({ background }) =>
+    background ? background : "var(--accent-500)"};
   border: none;
   border-radius: 10px;
   font-weight: bold;

@@ -16,7 +16,6 @@
 body {
   background-color: var(--primary-900);
   color: var(--nuetral-100);
-  min-height: 100vh;
 }
 
 a {

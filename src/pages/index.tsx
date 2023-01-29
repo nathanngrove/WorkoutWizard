@@ -1,15 +1,25 @@
 import { type NextPage } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 
+import Header from "../components/Header";
+import StatusMessage from "../components/StatusMessage";
 import StyledLink from "../components/styles/StyledLink.styled";
+import { useUserContext } from "../context/user.context";
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const user = useUserContext();
+
+  if (user) {
+    router.push("/dashboard");
+    return <StatusMessage message="Redirecting..." />;
+  }
+
   return (
     <GridContainer>
-      <h1>
-        Workout<Purple>Wizard</Purple>
-      </h1>
+      <Header />
       <TagLine>
         Start <Purple>tracking</Purple> your <Purple>progress</Purple> today!
       </TagLine>
@@ -43,7 +53,7 @@ const LinkButton = styled.a`
   }
 `;
 
-const GridContainer = styled.div`
+const GridContainer = styled.main`
   height: 100vh;
   width: 100%;
   display: grid;

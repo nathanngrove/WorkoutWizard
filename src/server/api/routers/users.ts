@@ -31,7 +31,7 @@ export const usersRouter = createTRPCRouter({
           if (e.code === "P2002") {
             throw new TRPCError({
               code: "CONFLICT",
-              message: "User already exists",
+              message: "Error logging in. Please try again.",
             });
           }
 
@@ -69,7 +69,10 @@ export const usersRouter = createTRPCRouter({
       const user = await ctx.prisma.user.findUnique({ where: { email } });
 
       if (!user) {
-        throw new TRPCError({ code: "NOT_FOUND", message: "User not found" });
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Error logging in. Please try again.",
+        });
       }
 
       const existingToken = await ctx.prisma.loginToken.findUnique({
@@ -77,9 +80,8 @@ export const usersRouter = createTRPCRouter({
       });
 
       if (existingToken) {
-        throw new TRPCError({
-          code: "CONFLICT",
-          message: "Token already exists for User",
+        const deleted = await ctx.prisma.loginToken.delete({
+          where: { userId: user.id },
         });
       }
 
@@ -115,7 +117,10 @@ export const usersRouter = createTRPCRouter({
       });
 
       if (!token) {
-        throw new TRPCError({ code: "FORBIDDEN", message: "Invalid token" });
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Error logging in. Please try again.",
+        });
       }
 
       const jwt = signJWT({ email: token.user.email, id: token.user.id });
@@ -131,7 +136,10 @@ export const usersRouter = createTRPCRouter({
   }),
   deleteUserToken: publicProcedure.mutation(async ({ ctx }) => {
     if (!ctx.user) {
-      throw new TRPCError({ code: "UNAUTHORIZED", message: "No user found" });
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Something went wrong.",
+      });
     }
 
     try {

@@ -17,9 +17,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 
   return (
     <UserContextProvider value={data}>
-      <main>
-        <Component {...pageProps} />
-      </main>
+      <Component {...pageProps} />
     </UserContextProvider>
   );
 };

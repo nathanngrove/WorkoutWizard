@@ -10,6 +10,8 @@ import StyledButton from "./styles/StyledButton.styled";
 import StyledLink from "./styles/StyledLink.styled";
 import StyledInput from "./styles/StyledInput.styled";
 import StyledLabel from "./styles/StyledLabel.styled";
+import Main from "./styles/StyledMain.styled";
+import Header from "./Header";
 
 function VerifyToken({ hash }: { hash: string }) {
   const router = useRouter();
@@ -19,7 +21,11 @@ function VerifyToken({ hash }: { hash: string }) {
 
   if (error) return <StatusMessage message={error.message} />;
 
-  router.push(data?.redirect.includes("login") ? "/" : data?.redirect || "/");
+  router.push(
+    data?.redirect.includes("login")
+      ? "/dashboard"
+      : data?.redirect || "/dashboard"
+  );
 
   return <StatusMessage message="Redirecting..." />;
 }
@@ -40,8 +46,9 @@ const LoginForm: NextPage = () => {
   });
 
   return (
-    <Wrapper>
-      <Main>
+    <Main>
+      <Header />
+      <Wrapper>
         <Heading>Log in</Heading>
         <div>
           {error && error.message}
@@ -71,12 +78,12 @@ const LoginForm: NextPage = () => {
             <StyledLink>Create an account</StyledLink>
           </Link>
         </TextCenter>
-      </Main>
-    </Wrapper>
+      </Wrapper>
+    </Main>
   );
 };
 
-const Main = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: var(--nuetral-100);
@@ -84,14 +91,6 @@ const Main = styled.div`
   border-radius: 10px;
   width: 20rem;
   padding: 1rem;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
 `;
 
 const FlexContainer = styled.form`
