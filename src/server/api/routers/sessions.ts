@@ -58,6 +58,7 @@ export const sessionsRouter = createTRPCRouter({
           orderBy: { createdAt: "asc" },
         },
       },
+      orderBy: { createdAt: "desc" },
     });
   }),
 });

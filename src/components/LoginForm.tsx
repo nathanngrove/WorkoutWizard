@@ -39,7 +39,7 @@ const LoginForm: NextPage = () => {
   const [email, setEmail] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const { mutate, error } = api.users.requestOPT.useMutation({
+  const { mutate, error, isLoading } = api.users.requestOPT.useMutation({
     onSuccess: () => {
       setSuccess(true);
     },
@@ -69,7 +69,9 @@ const LoginForm: NextPage = () => {
               setEmail(e.target.value);
             }}
           />
-          <StyledButton type="submit">Log in</StyledButton>
+          <StyledButton type="submit" disabled={isLoading}>
+            Log in
+          </StyledButton>
         </FormFlexContainer>
         <TextCenter>
           Don't have an account yet?

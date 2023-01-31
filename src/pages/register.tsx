@@ -11,9 +11,17 @@ import StyledInput from "../components/styles/StyledInput.styled";
 import StyledLabel from "../components/styles/StyledLabel.styled";
 import StyledLink from "../components/styles/StyledLink.styled";
 import Main from "../components/styles/StyledMain.styled";
+import { useUserContext } from "../context/user.context";
+import StatusMessage from "../components/StatusMessage";
 
 const Register: NextPage = () => {
   const router = useRouter();
+  const user = useUserContext();
+
+  if (user) {
+    router.push("/dashboard");
+    return <StatusMessage message="Redirecting..." />;
+  }
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -22,6 +30,7 @@ const Register: NextPage = () => {
   const { mutate, error, isLoading } = api.users.addUser.useMutation({
     onSuccess: () => {
       router.push("/login");
+      return <StatusMessage message="Redirecting..." />;
     },
   });
 
@@ -48,6 +57,7 @@ const Register: NextPage = () => {
             onChange={(e) => {
               setFirstName(e.target.value);
             }}
+            required
           />
           <br />
           <StyledLabel htmlFor="lastName">Last Name: </StyledLabel>
@@ -58,6 +68,7 @@ const Register: NextPage = () => {
             onChange={(e) => {
               setLastName(e.target.value);
             }}
+            required
           />
           <br />
           <StyledLabel htmlFor="email">Email: </StyledLabel>
@@ -68,6 +79,7 @@ const Register: NextPage = () => {
             onChange={(e) => {
               setEmail(e.target.value);
             }}
+            required
           />
           <br />
           <StyledButton type="submit" disabled={isLoading}>

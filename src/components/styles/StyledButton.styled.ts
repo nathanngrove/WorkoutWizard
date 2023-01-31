@@ -3,6 +3,8 @@ import styled from "styled-components";
 interface ButtonProps {
   background?: string;
   hover?: string;
+  disabledBackground?: string;
+  disabledColor?: string;
 }
 
 const StyledButton = styled.button<ButtonProps>`
@@ -18,6 +20,12 @@ const StyledButton = styled.button<ButtonProps>`
   &:hover,
   &:focus-within {
     background-color: ${({ hover }) => (hover ? hover : "var(--accent-400)")};
+  }
+
+  &:disabled {
+    background-color: ${({ disabledBackground }) =>
+      disabledBackground ? disabledBackground : "darkgray"};
+    color: ${({ disabledColor }) => (disabledColor ? disabledColor : "black")};
   }
 `;
 

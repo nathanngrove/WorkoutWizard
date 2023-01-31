@@ -14,15 +14,24 @@ export default function AddSet({
   const [reps, setReps] = useState("");
   const [weight, setWeight] = useState("");
 
+  const getAllExercises = api.exercises.getAllExercises.useQuery(
+    {
+      sessionId,
+    },
+    { enabled: false }
+  );
+
   const { mutate, error } = api.exercises.addSetToExercise.useMutation({
     onSuccess: () => {
       setReps("");
       setWeight("");
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries(getAllExercises);
     },
   });
 
   function addSet() {
+    if (reps === "" || weight === "") return;
+
     mutate({
       reps: parseInt(reps),
       weight: parseInt(weight),

@@ -25,7 +25,7 @@ const Dashboard: NextPage = () => {
 
   const logout = api.users.deleteUserToken.useMutation();
   const queryAllSessions = api.sessions.getAllSessions.useQuery();
-  const { mutate, error } = api.sessions.addSession.useMutation({
+  const { mutate, error, isLoading } = api.sessions.addSession.useMutation({
     onSuccess: (data) => {
       queryClient.invalidateQueries(queryAllSessions);
       router.push(`/session/${data?.id}`);
@@ -56,16 +56,20 @@ const Dashboard: NextPage = () => {
             <StyledButton
               color="black"
               background="white"
+              disabledColor="white"
               hover="hsl(0, 0%, 95%)"
               onClick={addSession}
+              disabled={isLoading}
             >
               <StyledCross>+</StyledCross> Add session
             </StyledButton>
             <StyledButton
               color="black"
               background="white"
+              disabledColor="white"
               hover="hsl(0, 0%, 95%)"
               onClick={addSession}
+              disabled={isLoading}
             >
               <StyledCross>+</StyledCross> Start from a template
             </StyledButton>
