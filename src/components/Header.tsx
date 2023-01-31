@@ -11,7 +11,8 @@ export default function Header() {
 }
 
 const StyledHeader = styled.header`
-  margin-top: 1rem;
+  text-align: center;
+  padding: 2rem;
 `;
 
 const Purple = styled.span`

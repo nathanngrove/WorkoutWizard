@@ -1,16 +1,16 @@
 import { type NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
 import { useState } from "react";
 import styled from "styled-components";
-import {
-  StyledButton,
-  StyledInput,
-  StyledLabel,
-  StyledLink,
-} from "../components/styles/StyledComponents.styled";
+
 import { api } from "../utils/api";
+import Header from "../components/Header";
+import StyledButton from "../components/styles/StyledButton.styled";
+import StyledInput from "../components/styles/StyledInput.styled";
+import StyledLabel from "../components/styles/StyledLabel.styled";
+import StyledLink from "../components/styles/StyledLink.styled";
+import Main from "../components/styles/StyledMain.styled";
 
 const Register: NextPage = () => {
   const router = useRouter();
@@ -26,8 +26,9 @@ const Register: NextPage = () => {
   });
 
   return (
-    <Wrapper>
-      <Main>
+    <Main>
+      <Header />
+      <Wrapper>
         <Heading>Register</Heading>
         <p>{error && error.message}</p>
         <FlexContainer
@@ -80,27 +81,16 @@ const Register: NextPage = () => {
             <StyledLink>Log in here</StyledLink>
           </Link>
         </TextCenter>
-      </Main>
-    </Wrapper>
+      </Wrapper>
+    </Main>
   );
 };
 
-const Main = styled.div`
-  display: flex;
-  flex-direction: column;
+const Wrapper = styled.div`
   background-color: var(--nuetral-100);
   color: black;
   border-radius: 10px;
-  width: 20rem;
-  padding: 1rem;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  padding: 1.5rem;
 `;
 
 const FlexContainer = styled.form`

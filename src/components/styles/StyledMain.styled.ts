@@ -4,9 +4,13 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  max-width: 70vw;
-  margin-left: 15vw;
+  margin: 1rem;
+  min-width: 420px;
+
+  @media (width > 800px) {
+    margin-left: 15vw;
+    margin-right: 15vw;
+  }
 `;
 
 export default Main;

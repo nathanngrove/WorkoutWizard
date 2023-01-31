@@ -5,13 +5,13 @@ import { useState } from "react";
 import styled from "styled-components";
 
 import { api } from "../utils/api";
-import StatusMessage from "./StatusMessage";
-import StyledButton from "./styles/StyledButton.styled";
-import StyledLink from "./styles/StyledLink.styled";
-import StyledInput from "./styles/StyledInput.styled";
-import StyledLabel from "./styles/StyledLabel.styled";
 import Main from "./styles/StyledMain.styled";
 import Header from "./Header";
+import StyledLabel from "./styles/StyledLabel.styled";
+import StyledInput from "./styles/StyledInput.styled";
+import StyledLink from "./styles/StyledLink.styled";
+import StyledButton from "./styles/StyledButton.styled";
+import StatusMessage from "./StatusMessage";
 
 function VerifyToken({ hash }: { hash: string }) {
   const router = useRouter();

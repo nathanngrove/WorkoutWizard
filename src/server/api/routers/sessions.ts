@@ -1,6 +1,5 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { TRPCError } from "@trpc/server";
-import { userAgent } from "next/server";
 import { getSessionSchema } from "../../../schema/session.schema";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
@@ -53,7 +52,12 @@ export const sessionsRouter = createTRPCRouter({
 
     return await ctx.prisma.session.findMany({
       where: { userId: ctx.user.id },
-      include: { exercises: true },
+      include: {
+        exercises: {
+          include: { exercise: true },
+          orderBy: { createdAt: "asc" },
+        },
+      },
     });
   }),
 });

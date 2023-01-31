@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { api } from "../utils/api";
 import { useQueryClient } from "@tanstack/react-query";
+import firstLetterToUpperCase from "../utils/uppercaseFirstLetter";
 
 export default function AddExercise({ sessionId }: { sessionId: string }) {
   const queryClient = useQueryClient();
@@ -27,7 +28,7 @@ export default function AddExercise({ sessionId }: { sessionId: string }) {
 
   function addExercise() {
     mutate({
-      name: exercise,
+      name: firstLetterToUpperCase(exercise),
       sessionId,
       reps: parseInt(reps),
       weight: parseInt(weight),

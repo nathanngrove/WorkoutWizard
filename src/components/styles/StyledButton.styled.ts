@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 interface ButtonProps {
   background?: string;
+  hover?: string;
 }
 
 const StyledButton = styled.button<ButtonProps>`
@@ -16,7 +17,7 @@ const StyledButton = styled.button<ButtonProps>`
 
   &:hover,
   &:focus-within {
-    background-color: var(--accent-400);
+    background-color: ${({ hover }) => (hover ? hover : "var(--accent-400)")};
   }
 `;
 
