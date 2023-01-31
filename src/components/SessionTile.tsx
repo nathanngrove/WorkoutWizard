@@ -38,6 +38,7 @@ const Tile = styled.div`
   border-radius: 10px;
   padding: 1rem;
   position: relative;
+  min-width: 250px;
 `;
 
 const Time = styled.p`

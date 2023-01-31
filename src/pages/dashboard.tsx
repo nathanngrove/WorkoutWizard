@@ -52,28 +52,32 @@ const Dashboard: NextPage = () => {
         <button onClick={() => logout.mutate()}>Logout</button>
         <Section>
           <h2>Start a new session</h2>
-          <StyledButton
-            color="black"
-            background="white"
-            hover="hsl(0, 0%, 95%)"
-            onClick={addSession}
-          >
-            <StyledCross>+</StyledCross> Add session
-          </StyledButton>
-          <StyledButton
-            color="black"
-            background="white"
-            hover="hsl(0, 0%, 95%)"
-            onClick={addSession}
-          >
-            <StyledCross>+</StyledCross> Start from a template
-          </StyledButton>
+          <ActionsContainer>
+            <StyledButton
+              color="black"
+              background="white"
+              hover="hsl(0, 0%, 95%)"
+              onClick={addSession}
+            >
+              <StyledCross>+</StyledCross> Add session
+            </StyledButton>
+            <StyledButton
+              color="black"
+              background="white"
+              hover="hsl(0, 0%, 95%)"
+              onClick={addSession}
+            >
+              <StyledCross>+</StyledCross> Start from a template
+            </StyledButton>
+          </ActionsContainer>
         </Section>
         <Section>
           <h2>Your sessions</h2>
-          {queryAllSessions.data.map((session) => {
-            return <SessionTile key={session.id} session={session} />;
-          })}
+          <SessionsContainer>
+            {queryAllSessions.data.map((session) => {
+              return <SessionTile key={session.id} session={session} />;
+            })}
+          </SessionsContainer>
         </Section>
         {error && error.message}
       </Main>
@@ -86,6 +90,29 @@ const Section = styled.section`
   flex-direction: column;
   padding: 1.25rem;
   gap: 1rem;
+`;
+
+const ActionsContainer = styled.div`
+  display: grid;
+  gap: 1rem;
+  grid-template-rows: repeat(2, 1fr);
+  @media (width > 1100px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: none;
+  }
+`;
+
+const SessionsContainer = styled.div`
+  display: grid;
+  gap: 1rem;
+
+  @media (width > 650px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (width > 1100px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 const StyledCross = styled.span`

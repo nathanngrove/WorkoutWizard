@@ -7,7 +7,7 @@ const Main = styled.main`
   margin: 1rem;
   min-width: 420px;
 
-  @media (width > 800px) {
+  @media (width > 910px) {
     margin-left: 15vw;
     margin-right: 15vw;
   }

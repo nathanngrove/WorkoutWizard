@@ -54,7 +54,7 @@ const LoginForm: NextPage = () => {
           {error && error.message}
           {success && <p>Check your email!</p>}
         </div>
-        <FlexContainer
+        <FormFlexContainer
           onSubmit={async (e) => {
             e.preventDefault();
             mutate({ email, redirect: router.asPath });
@@ -70,7 +70,7 @@ const LoginForm: NextPage = () => {
             }}
           />
           <StyledButton type="submit">Log in</StyledButton>
-        </FlexContainer>
+        </FormFlexContainer>
         <TextCenter>
           Don't have an account yet?
           <br />
@@ -89,11 +89,10 @@ const Wrapper = styled.div`
   background-color: var(--nuetral-100);
   color: black;
   border-radius: 10px;
-  width: 20rem;
   padding: 1rem;
 `;
 
-const FlexContainer = styled.form`
+const FormFlexContainer = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
