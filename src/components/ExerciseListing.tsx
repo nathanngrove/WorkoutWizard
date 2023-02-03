@@ -1,5 +1,11 @@
 import { Exercise, Set, SetsOnExercises } from "@prisma/client";
+
 import AddSet from "./AddSet";
+import {
+  FirstColumn,
+  SecondColumn,
+  ThirdColumn,
+} from "./styles/StyledGrid.styled";
 
 export default function ExerciseListing({
   exercise,
@@ -17,27 +23,22 @@ export default function ExerciseListing({
       {set.map((set, i) => {
         if (i === 0) {
           return (
-            <tr>
-              <td>{exercise.name}</td>
-              <td>{set.set.reps}</td>
-              <td>{set.set.weight}</td>
-              <td></td>
-            </tr>
+            <>
+              <FirstColumn>{exercise.name}</FirstColumn>
+              <SecondColumn>{set.set.reps}</SecondColumn>
+              <ThirdColumn>{set.set.weight}</ThirdColumn>
+            </>
           );
         } else {
           return (
-            <tr>
-              <td></td>
-              <td>{set.set.reps}</td>
-              <td>{set.set.weight}</td>
-              <td></td>
-            </tr>
+            <>
+              <SecondColumn>{set.set.reps}</SecondColumn>
+              <ThirdColumn>{set.set.weight}</ThirdColumn>
+            </>
           );
         }
       })}
-      <tr>
-        <AddSet exerciseId={exercise.id} sessionId={sessionId} />
-      </tr>
+      <AddSet exerciseId={exercise.id} sessionId={sessionId} />
     </>
   );
 }

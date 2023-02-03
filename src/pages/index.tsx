@@ -1,16 +1,25 @@
 import { type NextPage } from "next";
-import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import styled from "styled-components";
 
 import Header from "../components/Header";
+import LoginModal from "../components/LoginModal";
+import RegisterModal from "../components/RegisterModal";
 import StatusMessage from "../components/StatusMessage";
-import StyledLink from "../components/styles/StyledLink.styled";
+import { Purple } from "../components/styles/StyledText.styled";
 import { useUserContext } from "../context/user.context";
+import {
+  StyledButton,
+  ButtonLink,
+} from "../components/styles/StyledButton.styled";
 
 const Home: NextPage = () => {
   const router = useRouter();
   const user = useUserContext();
+
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
   if (user) {
     router.push("/dashboard");
@@ -18,62 +27,76 @@ const Home: NextPage = () => {
   }
 
   return (
-    <GridContainer>
-      <Header />
-      <TagLine>
-        Start <Purple>tracking</Purple> your <Purple>progress</Purple> today!
-      </TagLine>
-      <div className="grid-span-2">
-        <Link href="/register">
-          <LinkButton>Register now</LinkButton>
-        </Link>
-        <SignInLine>
-          Already have an account?{" "}
-          <Link href="/login" passHref>
-            <StyledLink>Sign in</StyledLink>
-          </Link>
-        </SignInLine>
-      </div>
-    </GridContainer>
+    <>
+      {isLoginOpen && (
+        <LoginModal
+          setIsRegisterOpen={setIsRegisterOpen}
+          setIsLoginOpen={setIsLoginOpen}
+          displayClose={true}
+        />
+      )}
+      {isRegisterOpen && (
+        <RegisterModal
+          setIsRegisterOpen={setIsRegisterOpen}
+          setIsLoginOpen={setIsLoginOpen}
+          displayClose={true}
+        />
+      )}
+      <GridContainer>
+        <Header />
+        <TagLine>
+          Start <Purple>tracking</Purple> your <Purple>progress</Purple> today!
+        </TagLine>
+        <CenteredDiv className="grid-span-2">
+          <StyledButton
+            fontSize="2.25rem"
+            onClick={() => {
+              setIsLoginOpen(false);
+              setIsRegisterOpen(true);
+            }}
+          >
+            Register Now
+          </StyledButton>
+          <SignInLine>
+            Already have an account?{" "}
+            <ButtonLink
+              onClick={() => {
+                setIsRegisterOpen(false);
+                setIsLoginOpen(true);
+              }}
+            >
+              Sign in
+            </ButtonLink>
+          </SignInLine>
+        </CenteredDiv>
+      </GridContainer>
+    </>
   );
 };
 
-const LinkButton = styled.a`
-  font-size: 1.75rem;
-  padding: 1rem 3rem;
-  color: var(--nuetral-100);
-  background-color: var(--accent-500);
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-
-  &:hover,
-  &:focus-within {
-    background-color: var(--accent-400);
-  }
-`;
-
 const GridContainer = styled.main`
   height: 100vh;
-  width: 100%;
+  width: 100vw;
   display: grid;
   grid-template-rows: repeat(3, 1fr);
   place-items: center;
-  padding: 1.25rem;
-`;
-
-const Purple = styled.span`
-  color: var(--accent-500);
 `;
 
 const TagLine = styled.p`
   font-size: 2.5rem;
   text-align: center;
+  width: 20ch;
 `;
 
 const SignInLine = styled.p`
+  font-size: 1.25rem;
   text-align: center;
   margin-top: 1.5rem;
+`;
+
+const CenteredDiv = styled.div`
+  display: grid;
+  place-items: center;
 `;
 
 export default Home;

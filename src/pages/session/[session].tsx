@@ -1,11 +1,20 @@
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
+import styled from "styled-components";
 
 import { api } from "../../utils/api";
 import { useUserContext } from "../../context/user.context";
-import LoginForm from "../../components/LoginForm";
+import LoginForm from "../../components/LoginModal";
 import ExerciseListing from "../../components/ExerciseListing";
 import AddExercise from "../../components/AddExercise";
+import Main from "../../components/styles/StyledMain.styled";
+import { dateFormatter, weekdayFormatter } from "../../utils/formatter";
+import {
+  FirstColumn,
+  ExercisesGrid,
+  SecondColumn,
+  ThirdColumn,
+} from "../../components/styles/StyledGrid.styled";
 
 const Session: NextPage = () => {
   const user = useUserContext();
@@ -21,6 +30,8 @@ const Session: NextPage = () => {
     sessionId,
   });
 
+  const getSession = api.sessions.getSession.useQuery({ id: sessionId });
+
   if (getAllExercises.isLoading) {
     return <p>Loading...</p>;
   }
@@ -30,35 +41,34 @@ const Session: NextPage = () => {
   }
 
   return (
-    <>
-      <main>
-        <table>
-          <thead>
-            <tr>
-              <th>Exercise</th>
-              <th>Reps</th>
-              <th>Weight</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {getAllExercises.data.map((exercise) => (
-              <ExerciseListing
-                exercise={exercise.exercise}
-                set={exercise.setsOnExercises}
-                sessionId={sessionId}
-              />
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <AddExercise sessionId={sessionId} />
-            </tr>
-          </tfoot>
-        </table>
-      </main>
-    </>
+    <Main>
+      <h1>{weekdayFormatter.format(getSession.data?.createdAt)}</h1>
+      <h2>{dateFormatter.format(getSession.data?.createdAt)}</h2>
+      <ExercisesGrid>
+        <FirstColumn>
+          <TableHeading>Exercise</TableHeading>
+        </FirstColumn>
+        <SecondColumn>
+          <TableHeading>Reps</TableHeading>
+        </SecondColumn>
+        <ThirdColumn>
+          <TableHeading>Weight</TableHeading>
+        </ThirdColumn>
+        {getAllExercises.data.map((exercise) => (
+          <ExerciseListing
+            exercise={exercise.exercise}
+            set={exercise.setsOnExercises}
+            sessionId={sessionId}
+          />
+        ))}
+        <AddExercise sessionId={sessionId} />
+      </ExercisesGrid>
+    </Main>
   );
 };
+
+const TableHeading = styled.p`
+  font-weight: bold;
+`;
 
 export default Session;

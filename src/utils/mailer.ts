@@ -32,7 +32,7 @@ export async function sendLoginEmail({
     from: '"Workout Tracker" <nathangrove08@gmail.com>',
     to: email,
     subject: "Login to your account",
-    html: `Login by click here <a href="${url}/login#token=${token}">Login</a>`,
+    html: `Login by click here <a href="${url}/dashboard#token=${token}">Login</a>`,
   };
 
   const responseMessage = await new Promise((resolve) => {

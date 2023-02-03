@@ -34,7 +34,7 @@ export const sessionsRouter = createTRPCRouter({
           if (e.code === "P2025") {
             throw new TRPCError({
               code: "NOT_FOUND",
-              message: "Token not found",
+              message: "Session not found",
             });
           }
 

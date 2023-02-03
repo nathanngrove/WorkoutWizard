@@ -1,13 +1,19 @@
 import styled from "styled-components";
 
-const StyledInput = styled.input`
+interface InputOptions {
+  gridPosition?: string;
+}
+
+const StyledInput = styled.input<InputOptions>`
   border: none;
-  outline: none;
+  outline: transparent;
   background-color: transparent;
   border-bottom: 2px solid var(--accent-500);
   color: black;
   padding: 0 0.375rem;
   font-size: 1.25rem;
+  ${({ gridPosition }) =>
+    gridPosition ? `grid-column: ${gridPosition}` : null};
 `;
 
 export default StyledInput;

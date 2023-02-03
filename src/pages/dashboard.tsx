@@ -1,24 +1,45 @@
-import { type NextPage } from "next";
-import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
+import { type NextPage } from "next";
 import { useRouter } from "next/router";
+import { useQueryClient } from "@tanstack/react-query";
+import styled from "styled-components";
 
 import { api } from "../utils/api";
 import { useUserContext } from "../context/user.context";
 import Header from "../components/Header";
-import StyledButton from "../components/styles/StyledButton.styled";
-import StatusMessage from "../components/StatusMessage";
-import styled from "styled-components";
-import Main from "../components/styles/StyledMain.styled";
 import SessionTile from "../components/SessionTile";
+import { StyledButton } from "../components/styles/StyledButton.styled";
+import StatusMessage from "../components/StatusMessage";
+import Main from "../components/styles/StyledMain.styled";
+import { Purple } from "../components/styles/StyledText.styled";
+import LoginOrRegisterModal from "../components/LoginOrRegisterModal";
+
+function VerifyToken({ hash }: { hash: string }) {
+  const router = useRouter();
+  const { data, error, isLoading } = api.users.verifyOTP.useQuery({ hash });
+
+  if (isLoading) return <StatusMessage message="Verifying..." />;
+
+  if (error) return <StatusMessage message={error.message} />;
+
+  router.push(
+    data?.redirect.includes("dashboard")
+      ? "/dashboard"
+      : data?.redirect || "/dashboard"
+  );
+
+  return <StatusMessage message="Redirecting..." />;
+}
 
 const Dashboard: NextPage = () => {
   const router = useRouter();
   const user = useUserContext();
 
+  const hash = router.asPath.split("#token=")[1];
+  if (hash) return <VerifyToken hash={hash} />;
+
   if (!user) {
-    router.push("/login");
-    return <StatusMessage message="Redirecting" />;
+    return <LoginOrRegisterModal displayClose={false} />;
   }
 
   const queryClient = useQueryClient();
@@ -52,6 +73,7 @@ const Dashboard: NextPage = () => {
         <button onClick={() => logout.mutate()}>Logout</button>
         <Section>
           <h2>Start a new session</h2>
+          {error && error.message}
           <ActionsContainer>
             <StyledButton
               color="black"
@@ -61,17 +83,17 @@ const Dashboard: NextPage = () => {
               onClick={addSession}
               disabled={isLoading}
             >
-              <StyledCross>+</StyledCross> Add session
+              <Purple>+</Purple> Add session
             </StyledButton>
             <StyledButton
               color="black"
               background="white"
               disabledColor="white"
               hover="hsl(0, 0%, 95%)"
-              onClick={addSession}
+              // onClick={addSession}
               disabled={isLoading}
             >
-              <StyledCross>+</StyledCross> Start from a template
+              <Purple>+</Purple> Start from a template
             </StyledButton>
           </ActionsContainer>
         </Section>
@@ -83,7 +105,6 @@ const Dashboard: NextPage = () => {
             })}
           </SessionsContainer>
         </Section>
-        {error && error.message}
       </Main>
     </>
   );
@@ -117,10 +138,6 @@ const SessionsContainer = styled.div`
   @media (width > 1100px) {
     grid-template-columns: repeat(3, 1fr);
   }
-`;
-
-const StyledCross = styled.span`
-  color: var(--accent-500);
 `;
 
 export default Dashboard;

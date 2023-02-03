@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 interface ButtonProps {
+  fontSize?: string;
   background?: string;
   hover?: string;
   disabledBackground?: string;
@@ -8,7 +9,7 @@ interface ButtonProps {
 }
 
 const StyledButton = styled.button<ButtonProps>`
-  font-size: 1.75rem;
+  font-size: ${({ fontSize }) => (fontSize ? fontSize : "1.75rem")};
   padding: 1rem;
   color: ${({ color }) => (color ? color : "var(--nuetral-100)")};
   background: ${({ background }) =>
@@ -29,4 +30,13 @@ const StyledButton = styled.button<ButtonProps>`
   }
 `;
 
-export default StyledButton;
+const ButtonLink = styled.button`
+  border: none;
+  background-color: transparent;
+  color: var(--accent-500);
+  font-size: 1.25rem;
+  font-weight: bold;
+  cursor: pointer;
+`;
+
+export { StyledButton, ButtonLink };

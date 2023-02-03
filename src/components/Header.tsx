@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import StyledHeader from "./styles/StyledHeader.styled";
+import { Purple } from "./styles/StyledText.styled";
 
 export default function Header() {
   return (
@@ -9,12 +11,3 @@ export default function Header() {
     </StyledHeader>
   );
 }
-
-const StyledHeader = styled.header`
-  text-align: center;
-  padding: 2rem;
-`;
-
-const Purple = styled.span`
-  color: var(--accent-500);
-`;

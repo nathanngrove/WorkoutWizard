@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { api } from "../utils/api";
 import { useQueryClient } from "@tanstack/react-query";
+
+import { api } from "../utils/api";
 import firstLetterToUpperCase from "../utils/uppercaseFirstLetter";
+import StyledInput from "./styles/StyledInput.styled";
+import { GridButton } from "./styles/StyledGrid.styled";
 
 export default function AddExercise({ sessionId }: { sessionId: string }) {
   const queryClient = useQueryClient();
@@ -27,6 +30,8 @@ export default function AddExercise({ sessionId }: { sessionId: string }) {
   });
 
   function addExercise() {
+    if (exercise === "" || reps === "" || weight === "") return;
+
     mutate({
       name: firstLetterToUpperCase(exercise),
       sessionId,
@@ -41,42 +46,40 @@ export default function AddExercise({ sessionId }: { sessionId: string }) {
 
   return (
     <>
-      <td>
-        <input
-          id="exercise"
-          type="text"
-          placeholder="Exercise"
-          onChange={(e) => {
-            setExercise(e.target.value);
-          }}
-          value={exercise}
-        />
-      </td>
-      <td>
-        <input
-          id="reps"
-          type="text"
-          placeholder="Reps"
-          onChange={(e) => {
-            setReps(e.target.value);
-          }}
-          value={reps}
-        />
-      </td>
-      <td>
-        <input
-          id="weight"
-          type="text"
-          placeholder="Weight"
-          onChange={(e) => {
-            setWeight(e.target.value);
-          }}
-          value={weight}
-        />
-      </td>
-      <td>
-        <button onClick={addExercise}>Add Exercise</button>
-      </td>
+      <StyledInput
+        id="exercise"
+        type="text"
+        placeholder="Exercise"
+        onChange={(e) => {
+          setExercise(e.target.value);
+        }}
+        value={exercise}
+        gridPosition="1 / 2"
+        size={1}
+      />
+      <StyledInput
+        id="reps"
+        type="text"
+        placeholder="Reps"
+        onChange={(e) => {
+          setReps(e.target.value);
+        }}
+        value={reps}
+        gridPosition="2 / 3"
+        size={1}
+      />
+      <StyledInput
+        id="weight"
+        type="text"
+        placeholder="Weight"
+        onChange={(e) => {
+          setWeight(e.target.value);
+        }}
+        value={weight}
+        gridPosition="3 / 4"
+        size={1}
+      />
+      <GridButton onClick={addExercise}>+</GridButton>
     </>
   );
 }

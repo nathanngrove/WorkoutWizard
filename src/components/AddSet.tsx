@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { api } from "../utils/api";
 import { useQueryClient } from "@tanstack/react-query";
+
+import { api } from "../utils/api";
+import StyledInput from "./styles/StyledInput.styled";
+import { GridButton } from "./styles/StyledGrid.styled";
 
 export default function AddSet({
   exerciseId,
@@ -46,32 +49,29 @@ export default function AddSet({
 
   return (
     <>
-      <td></td>
-      <td>
-        <input
-          id="reps"
-          type="text"
-          placeholder="Reps"
-          onChange={(e) => {
-            setReps(e.target.value);
-          }}
-          value={reps}
-        />
-      </td>
-      <td>
-        <input
-          id="weight"
-          type="text"
-          placeholder="Weight"
-          onChange={(e) => {
-            setWeight(e.target.value);
-          }}
-          value={weight}
-        />
-      </td>
-      <td>
-        <button onClick={addSet}>Add Set</button>
-      </td>
+      <StyledInput
+        id="reps"
+        type="text"
+        placeholder="Reps"
+        onChange={(e) => {
+          setReps(e.target.value);
+        }}
+        value={reps}
+        gridPosition="2 / 3"
+        size={1}
+      />
+      <StyledInput
+        id="weight"
+        type="text"
+        placeholder="Weight"
+        onChange={(e) => {
+          setWeight(e.target.value);
+        }}
+        value={weight}
+        gridPosition="3 / 4"
+        size={1}
+      />
+      <GridButton onClick={addSet}>+</GridButton>
     </>
   );
 }
