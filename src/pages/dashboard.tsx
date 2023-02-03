@@ -23,9 +23,7 @@ function VerifyToken({ hash }: { hash: string }) {
   if (error) return <StatusMessage message={error.message} />;
 
   router.push(
-    data?.redirect.includes("dashboard")
-      ? "/dashboard"
-      : data?.redirect || "/dashboard"
+    data?.redirect.includes("/") ? "/dashboard" : data?.redirect || "/dashboard"
   );
 
   return <StatusMessage message="Redirecting..." />;
@@ -44,7 +42,6 @@ const Dashboard: NextPage = () => {
 
   const queryClient = useQueryClient();
 
-  const logout = api.users.deleteUserToken.useMutation();
   const queryAllSessions = api.sessions.getAllSessions.useQuery();
   const { mutate, error, isLoading } = api.sessions.addSession.useMutation({
     onSuccess: (data) => {
@@ -70,7 +67,6 @@ const Dashboard: NextPage = () => {
     <>
       <Main>
         <Header />
-        <button onClick={() => logout.mutate()}>Logout</button>
         <Section>
           <h2>Start a new session</h2>
           {error && error.message}
