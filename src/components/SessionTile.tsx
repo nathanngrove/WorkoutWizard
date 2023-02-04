@@ -1,7 +1,9 @@
 import { Exercise, ExercisesOnSessions, Session } from "@prisma/client";
+import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
+import { api } from "../utils/api";
 import {
   dateFormatter,
   timeFormatter,
@@ -26,10 +28,13 @@ export default function SessionTile({
         <Date>{dateFormatter.format(session.createdAt)}</Date>
       </Link>
       <Time>{timeFormatter.format(session.createdAt)}</Time>
+      {session.exercises.length === 0 && (
+        <Exercise>No exercises added yet.</Exercise>
+      )}
       {session.exercises?.map((exercise, i) => {
-        if (i > 3) return;
-        if (i === 3) return <p>more...</p>;
-        return <Exercise>{exercise.exercise.name}</Exercise>;
+        if (i > 1) return;
+        if (i === 1) return <Exercise key={session.id}>more...</Exercise>;
+        return <Exercise key={exercise.id}>{exercise.exercise.name}</Exercise>;
       })}
       <MenuButton
         type="button"
@@ -39,21 +44,29 @@ export default function SessionTile({
       >
         . . .
       </MenuButton>
-      {isOpen && <SquareMenu />}
+      {isOpen && <SquareMenu id={session.id} />}
     </Tile>
   );
 }
 
-function SquareMenu() {
+function SquareMenu({ id }: { id: string }) {
+  const queryClient = useQueryClient();
+
+  const deleteSession = api.sessions.deleteSession.useMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
+
   return (
     <Square>
       <li>
         <button
           onClick={(e) => {
-            console.log(e);
+            deleteSession.mutate({ id });
           }}
         >
-          Delete session
+          🗑️ Delete session
         </button>
       </li>
     </Square>
@@ -67,6 +80,7 @@ const Tile = styled.div`
   padding: 1rem;
   position: relative;
   min-width: 250px;
+  height: 7.5rem;
 `;
 
 const Time = styled.p`
@@ -107,12 +121,14 @@ const Square = styled.ul`
   border-radius: 10px 0 10px 10px;
   position: absolute;
   z-index: 1;
+  bottom: -3.5rem;
   right: 1rem;
-  padding: 1rem;
+  padding: 1rem 0rem;
   border: 1px solid black;
 
   & li {
     list-style-type: none;
+    padding: 0.5rem 1rem;
   }
 
   & li button {
@@ -121,5 +137,9 @@ const Square = styled.ul`
     cursor: pointer;
     font-weight: bold;
     color: red;
+  }
+
+  & li:hover {
+    background-color: hsl(0 0% 0% / 0.1);
   }
 `;

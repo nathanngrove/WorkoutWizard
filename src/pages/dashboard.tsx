@@ -16,17 +16,20 @@ import LoginOrRegisterModal from "../components/LoginOrRegisterModal";
 
 function VerifyToken({ hash }: { hash: string }) {
   const router = useRouter();
-  const { data, error, isLoading } = api.users.verifyOTP.useQuery({ hash });
-
-  if (isLoading) return <StatusMessage message="Verifying..." />;
-
-  if (error) return <StatusMessage message={error.message} />;
-
-  router.push(
-    data?.redirect.includes("/") ? "/dashboard" : data?.redirect || "/dashboard"
+  const verify = api.users.verifyOTP.useQuery(
+    { hash },
+    {
+      onError: (error) => {
+        return <StatusMessage message={error.message} />;
+      },
+      onSuccess: (data) => {
+        router.push(data.redirect === "/" ? "/dashboard" : data.redirect);
+        return <StatusMessage message="Redirecting..." />;
+      },
+    }
   );
 
-  return <StatusMessage message="Redirecting..." />;
+  return <StatusMessage message="Verifying..." />;
 }
 
 const Dashboard: NextPage = () => {
@@ -68,7 +71,7 @@ const Dashboard: NextPage = () => {
       <Main>
         <Header />
         <Section>
-          <h2>Start a new session</h2>
+          <SectionHeading>Start a new session</SectionHeading>
           {error && error.message}
           <ActionsContainer>
             <StyledButton
@@ -94,7 +97,7 @@ const Dashboard: NextPage = () => {
           </ActionsContainer>
         </Section>
         <Section>
-          <h2>Your sessions</h2>
+          <SectionHeading>Your sessions</SectionHeading>
           <SessionsContainer>
             {queryAllSessions.data.map((session) => {
               return <SessionTile key={session.id} session={session} />;
@@ -105,6 +108,21 @@ const Dashboard: NextPage = () => {
     </>
   );
 };
+
+const SectionHeading = styled.h2`
+  width: fit-content;
+  position: relative;
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    height: 2px;
+    background-color: var(--accent-500);
+  }
+`;
 
 const Section = styled.section`
   display: flex;

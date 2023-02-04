@@ -7,9 +7,10 @@ const ExercisesGrid = styled.div`
   background-color: white;
   border-radius: 10px;
   padding: 1rem;
-  gap: 1rem;
+  gap: 0.5rem;
   color: black;
   font-size: 1.25rem;
+  margin-top: 1rem;
 `;
 
 const FirstColumn = styled.span`

@@ -61,4 +61,17 @@ export const sessionsRouter = createTRPCRouter({
       orderBy: { createdAt: "desc" },
     });
   }),
+  deleteSession: publicProcedure
+    .input(getSessionSchema)
+    .mutation(async ({ ctx, input }) => {
+      if (!ctx.user) {
+        throw new TRPCError({ code: "UNAUTHORIZED", message: "No user found" });
+      }
+
+      const { id } = input;
+
+      return await ctx.prisma.session.delete({
+        where: { id },
+      });
+    }),
 });

@@ -28,4 +28,8 @@ const Logout = styled.button`
   font-size: 1.25rem;
   margin-left: auto;
   cursor: pointer;
+
+  &:hover {
+    color: var(--accent-500);
+  }
 `;
