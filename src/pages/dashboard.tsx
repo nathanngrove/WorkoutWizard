@@ -13,6 +13,7 @@ import StatusMessage from "../components/StatusMessage";
 import Main from "../components/styles/StyledMain.styled";
 import { Purple } from "../components/styles/StyledText.styled";
 import LoginOrRegisterModal from "../components/LoginOrRegisterModal";
+import StyledLink from "../components/styles/StyledLink.styled";
 
 function VerifyToken({ hash }: { hash: string }) {
   const router = useRouter();
@@ -58,6 +59,11 @@ const Dashboard: NextPage = () => {
     mutate();
   }
 
+  function startFromTemplate() {
+    router.push("/templates");
+    return <StatusMessage message="Redirecting..." />;
+  }
+
   if (queryAllSessions.isLoading) {
     return <p>Loading...</p>;
   }
@@ -89,7 +95,7 @@ const Dashboard: NextPage = () => {
               background="white"
               disabledColor="white"
               hover="hsl(0, 0%, 95%)"
-              // onClick={addSession}
+              onClick={startFromTemplate}
               disabled={isLoading}
             >
               <Purple>+</Purple> Start from a template

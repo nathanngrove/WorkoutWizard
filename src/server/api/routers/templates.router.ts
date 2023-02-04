@@ -36,7 +36,7 @@ export const templatesRouter = createTRPCRouter({
 
     return await ctx.prisma.template.findMany({
       where: { userId: ctx.user.id },
-      include: { exercises: true },
+      include: { exercises: { include: { exercise: true } } },
       orderBy: { createdAt: "desc" },
     });
   }),

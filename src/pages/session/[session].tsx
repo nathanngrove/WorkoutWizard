@@ -9,15 +9,16 @@ import AddExercise from "../../components/AddExercise";
 import Main from "../../components/styles/StyledMain.styled";
 import { dateFormatter, weekdayFormatter } from "../../utils/formatter";
 import LoginOrRegisterModal from "../../components/LoginOrRegisterModal";
+
+import { useState } from "react";
+import Header from "../../components/Header";
+import TemplateNameModal from "../../components/TemplateNameModal";
 import {
   FirstColumn,
   ExercisesGrid,
   SecondColumn,
   ThirdColumn,
 } from "../../components/styles/StyledGrid.styled";
-import { useState } from "react";
-import Header from "../../components/Header";
-import TemplateNameModal from "../../components/TemplateNameModal";
 
 const Session: NextPage = () => {
   const user = useUserContext();
@@ -56,41 +57,59 @@ const Session: NextPage = () => {
   }
 
   return (
-    <Main>
+    <>
+      <Header />
+
+      <Main>
+        <h1>{weekdayFormatter.format(getSession.data?.createdAt)}</h1>
+        <h2>{dateFormatter.format(getSession.data?.createdAt)}</h2>
+        <Button onClick={() => setIsOpen(true)}>Create Template</Button>
+        <ExercisesGrid>
+          <FirstColumn>
+            <TableHeading>Exercise</TableHeading>
+          </FirstColumn>
+          <SecondColumn>
+            <TableHeading>Reps</TableHeading>
+          </SecondColumn>
+          <ThirdColumn>
+            <TableHeading>Weight</TableHeading>
+          </ThirdColumn>
+          {getAllExercises.data.map((exercise) => (
+            <ExerciseListing
+              exercise={exercise.exercise}
+              set={exercise.setsOnExercises}
+              sessionId={sessionId}
+            />
+          ))}
+          <AddExercise sessionId={sessionId} />
+        </ExercisesGrid>
+      </Main>
       {isOpen && (
         <TemplateNameModal
           exercises={getExercisesArray()}
           setOpen={setIsOpen}
         />
       )}
-      <Header />
-      <h1>{weekdayFormatter.format(getSession.data?.createdAt)}</h1>
-      <h2>{dateFormatter.format(getSession.data?.createdAt)}</h2>
-      <Button onClick={() => setIsOpen(true)}>Create Template</Button>
-      <ExercisesGrid>
-        <FirstColumn>
-          <TableHeading>Exercise</TableHeading>
-        </FirstColumn>
-        <SecondColumn>
-          <TableHeading>Reps</TableHeading>
-        </SecondColumn>
-        <ThirdColumn>
-          <TableHeading>Weight</TableHeading>
-        </ThirdColumn>
-        {getAllExercises.data.map((exercise) => (
-          <ExerciseListing
-            exercise={exercise.exercise}
-            set={exercise.setsOnExercises}
-            sessionId={sessionId}
-          />
-        ))}
-        <AddExercise sessionId={sessionId} />
-      </ExercisesGrid>
-    </Main>
+    </>
   );
 };
 
-const Button = styled.button``;
+const Button = styled.button`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 1rem;
+  border-radius: 50px;
+  border: none;
+  background-color: var(--accent-500);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--accent-400);
+  }
+`;
 
 const TableHeading = styled.p`
   font-weight: bold;

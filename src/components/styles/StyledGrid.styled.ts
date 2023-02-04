@@ -37,9 +37,13 @@ const GridButton = styled.button`
   font-weight: bold;
   grid-column: 4 / 5;
   cursor: pointer;
+  border-radius: 10px;
+  width: 3ch;
+  height: 3ch;
 
-  &:hover {
-    border: 1px solid black;
+  &:hover,
+  focus-within {
+    background-color: var(--accent-400);
   }
 `;
 
