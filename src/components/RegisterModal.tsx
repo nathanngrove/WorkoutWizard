@@ -35,7 +35,7 @@ export default function RegisterModal({
 
   const { mutate, error, isLoading } = api.users.addUser.useMutation({
     onSuccess: () => {
-      router.push("/login");
+      router.push("/dashboard");
       return <StatusMessage message="Redirecting..." />;
     },
   });

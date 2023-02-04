@@ -6,11 +6,12 @@ interface ButtonProps {
   hover?: string;
   disabledBackground?: string;
   disabledColor?: string;
+  padding?: string;
 }
 
 const StyledButton = styled.button<ButtonProps>`
   font-size: ${({ fontSize }) => (fontSize ? fontSize : "1.75rem")};
-  padding: 1rem;
+  padding: ${({ padding }) => (padding ? padding : "1rem")};
   color: ${({ color }) => (color ? color : "var(--nuetral-100)")};
   background: ${({ background }) =>
     background ? background : "var(--accent-500)"};

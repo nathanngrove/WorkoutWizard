@@ -49,6 +49,7 @@ const Home: NextPage = () => {
         </TagLine>
         <CenteredDiv className="grid-span-2">
           <StyledButton
+            padding="1rem 4rem"
             fontSize="2.25rem"
             onClick={() => {
               setIsLoginOpen(false);

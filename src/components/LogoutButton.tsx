@@ -17,7 +17,7 @@ export default function LogoutButton() {
     },
   });
 
-  return <Logout onClick={() => mutate()}>{`>`}</Logout>;
+  return <Logout onClick={() => mutate()}>Logout</Logout>;
 }
 
 const Logout = styled.button`

@@ -4,17 +4,20 @@ import styled from "styled-components";
 
 import { api } from "../../utils/api";
 import { useUserContext } from "../../context/user.context";
-import LoginForm from "../../components/LoginModal";
 import ExerciseListing from "../../components/ExerciseListing";
 import AddExercise from "../../components/AddExercise";
 import Main from "../../components/styles/StyledMain.styled";
 import { dateFormatter, weekdayFormatter } from "../../utils/formatter";
+import LoginOrRegisterModal from "../../components/LoginOrRegisterModal";
 import {
   FirstColumn,
   ExercisesGrid,
   SecondColumn,
   ThirdColumn,
 } from "../../components/styles/StyledGrid.styled";
+import { useState } from "react";
+import Header from "../../components/Header";
+import TemplateNameModal from "../../components/TemplateNameModal";
 
 const Session: NextPage = () => {
   const user = useUserContext();
@@ -22,8 +25,10 @@ const Session: NextPage = () => {
 
   const sessionId = router.asPath.split("session/")[1] || "";
 
+  const [isOpen, setIsOpen] = useState(false);
+
   if (!user) {
-    return <LoginForm />;
+    return <LoginOrRegisterModal displayClose={false} />;
   }
 
   const getAllExercises = api.exercises.getAllExercises.useQuery({
@@ -31,6 +36,16 @@ const Session: NextPage = () => {
   });
 
   const getSession = api.sessions.getSession.useQuery({ id: sessionId });
+
+  function getExercisesArray() {
+    const exerciseIds: Array<string> = [];
+
+    getAllExercises.data?.forEach((exercise) => {
+      exerciseIds.push(exercise.exerciseId);
+    });
+
+    return exerciseIds;
+  }
 
   if (getAllExercises.isLoading) {
     return <p>Loading...</p>;
@@ -42,8 +57,16 @@ const Session: NextPage = () => {
 
   return (
     <Main>
+      {isOpen && (
+        <TemplateNameModal
+          exercises={getExercisesArray()}
+          setOpen={setIsOpen}
+        />
+      )}
+      <Header />
       <h1>{weekdayFormatter.format(getSession.data?.createdAt)}</h1>
       <h2>{dateFormatter.format(getSession.data?.createdAt)}</h2>
+      <Button onClick={() => setIsOpen(true)}>Create Template</Button>
       <ExercisesGrid>
         <FirstColumn>
           <TableHeading>Exercise</TableHeading>
@@ -66,6 +89,8 @@ const Session: NextPage = () => {
     </Main>
   );
 };
+
+const Button = styled.button``;
 
 const TableHeading = styled.p`
   font-weight: bold;

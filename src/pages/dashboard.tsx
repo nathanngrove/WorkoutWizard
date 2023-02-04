@@ -118,7 +118,7 @@ const SectionHeading = styled.h2`
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 60%;
+    width: 50%;
     height: 2px;
     background-color: var(--accent-500);
   }
