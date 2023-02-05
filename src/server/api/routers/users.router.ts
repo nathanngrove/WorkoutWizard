@@ -5,7 +5,6 @@ import {
   createUserSchema,
   getUserSchema,
   requestOTPSchema,
-  updateUserSchema,
   verifyOTPSchema,
 } from "../../../schema/user.schema";
 import { sendLoginEmail } from "../../../utils/mailer";
@@ -50,11 +49,6 @@ export const usersRouter = createTRPCRouter({
         where: { email },
       });
     }),
-  updateUser: publicProcedure
-    .input(updateUserSchema)
-    .mutation(({ ctx, input }) => {
-      //TODO
-    }),
   deleteUser: publicProcedure
     .input(getUserSchema)
     .mutation(async ({ ctx, input }) => {
@@ -80,7 +74,7 @@ export const usersRouter = createTRPCRouter({
       });
 
       if (existingToken) {
-        const deleted = await ctx.prisma.loginToken.delete({
+        await ctx.prisma.loginToken.delete({
           where: { userId: user.id },
         });
       }

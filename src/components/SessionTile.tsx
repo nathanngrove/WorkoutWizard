@@ -1,4 +1,4 @@
-import { Exercise, ExercisesOnSessions, Session } from "@prisma/client";
+import type { Exercise, ExercisesOnSessions, Session } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
@@ -38,7 +38,7 @@ export default function SessionTile({
       })}
       <MenuButton
         type="button"
-        onClick={(e) => {
+        onClick={() => {
           setIsOpen(!isOpen);
         }}
       >
@@ -62,7 +62,7 @@ function SquareMenu({ id }: { id: string }) {
     <Square>
       <li>
         <button
-          onClick={(e) => {
+          onClick={() => {
             deleteSession.mutate({ id });
           }}
         >

@@ -1,4 +1,4 @@
-import { Exercise, Set, SetsOnExercises } from "@prisma/client";
+import type { Exercise, Set, SetsOnExercises } from "@prisma/client";
 
 import AddSet from "./AddSet";
 import {

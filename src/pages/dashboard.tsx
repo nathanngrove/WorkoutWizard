@@ -13,11 +13,10 @@ import StatusMessage from "../components/StatusMessage";
 import Main from "../components/styles/StyledMain.styled";
 import { Purple } from "../components/styles/StyledText.styled";
 import LoginOrRegisterModal from "../components/LoginOrRegisterModal";
-import StyledLink from "../components/styles/StyledLink.styled";
 
 function VerifyToken({ hash }: { hash: string }) {
   const router = useRouter();
-  const verify = api.users.verifyOTP.useQuery(
+  api.users.verifyOTP.useQuery(
     { hash },
     {
       onError: (error) => {
@@ -36,6 +35,16 @@ function VerifyToken({ hash }: { hash: string }) {
 const Dashboard: NextPage = () => {
   const router = useRouter();
   const user = useUserContext();
+  const queryClient = useQueryClient();
+
+  const queryAllSessions = api.sessions.getAllSessions.useQuery();
+  const { mutate, error, isLoading } = api.sessions.addSession.useMutation({
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries(queryAllSessions);
+      router.push(`/session/${data?.id}`);
+      return <StatusMessage message="Redirecting..." />;
+    },
+  });
 
   const hash = router.asPath.split("#token=")[1];
   if (hash) return <VerifyToken hash={hash} />;
@@ -43,17 +52,6 @@ const Dashboard: NextPage = () => {
   if (!user) {
     return <LoginOrRegisterModal displayClose={false} />;
   }
-
-  const queryClient = useQueryClient();
-
-  const queryAllSessions = api.sessions.getAllSessions.useQuery();
-  const { mutate, error, isLoading } = api.sessions.addSession.useMutation({
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(queryAllSessions);
-      router.push(`/session/${data?.id}`);
-      return <StatusMessage message="Redirecting..." />;
-    },
-  });
 
   function addSession() {
     mutate();

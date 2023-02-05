@@ -75,6 +75,7 @@ const Session: NextPage = () => {
           </ThirdColumn>
           {getAllExercises.data.map((exercise) => (
             <ExerciseListing
+              key={exercise.id}
               exercise={exercise.exercise}
               set={exercise.setsOnExercises}
               sessionId={sessionId}

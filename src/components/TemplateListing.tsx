@@ -1,6 +1,7 @@
-import { ExercisesOnTemplates, Template, Exercise } from "@prisma/client";
+import type { ExercisesOnTemplates, Template, Exercise } from "@prisma/client";
 import { useState } from "react";
 import styled from "styled-components";
+
 import { api } from "../utils/api";
 import { timeFormatter, dateFormatter } from "../utils/formatter";
 

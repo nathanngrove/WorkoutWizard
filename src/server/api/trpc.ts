@@ -51,7 +51,7 @@ function getUserFromRequest(req: NextApiRequest) {
 
 export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
   const { req, res } = _opts;
-  const user = getUserFromRequest(req);
+  const user = await getUserFromRequest(req);
 
   return {
     req,
@@ -69,7 +69,7 @@ export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
  */
 import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
-import { NextApiRequest } from "next";
+import type { NextApiRequest } from "next";
 import { verifyJWT } from "../../utils/jwt";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({

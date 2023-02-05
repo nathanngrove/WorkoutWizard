@@ -23,8 +23,8 @@ export default function RegisterModal({
   setIsLoginOpen,
   displayClose,
 }: {
-  setIsRegisterOpen: Function;
-  setIsLoginOpen: Function;
+  setIsRegisterOpen: (arg1: boolean) => void;
+  setIsLoginOpen: (arg1: boolean) => void;
   displayClose: boolean;
 }) {
   const router = useRouter();
@@ -54,7 +54,7 @@ export default function RegisterModal({
         {error && <ModalMessage>⚠️ {error.message}</ModalMessage>}
         {!error && <ModalMessage></ModalMessage>}
         <ModalFormFlexContainer
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             mutate({
               name:

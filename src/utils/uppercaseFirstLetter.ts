@@ -4,7 +4,7 @@ function firstLetterToUpperCaseHelper(string: string) {
 
 export default function firstLetterToUpperCase(string: string) {
   let returnString = "";
-  let splitString = string.split(" ");
+  const splitString = string.split(" ");
 
   splitString.forEach((word) => {
     returnString += firstLetterToUpperCaseHelper(word) + " ";

@@ -3,7 +3,7 @@ import { TRPCError } from "@trpc/server";
 import {
   createSessionFromTemplateSchema,
   getSessionSchema,
-  SessionData,
+  type SessionData,
 } from "../../../schema/session.schema";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 

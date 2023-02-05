@@ -21,8 +21,8 @@ export default function LoginModal({
   setIsRegisterOpen,
   displayClose,
 }: {
-  setIsLoginOpen: Function;
-  setIsRegisterOpen: Function;
+  setIsLoginOpen: (arg1: boolean) => void;
+  setIsRegisterOpen: (arg1: boolean) => void;
   displayClose: boolean;
 }) {
   const router = useRouter();
@@ -54,7 +54,7 @@ export default function LoginModal({
             {!error && !success && <ModalMessage></ModalMessage>}
           </div>
           <ModalFormFlexContainer
-            onSubmit={async (e) => {
+            onSubmit={(e) => {
               e.preventDefault();
               mutate({ email, redirect: router.asPath });
             }}
