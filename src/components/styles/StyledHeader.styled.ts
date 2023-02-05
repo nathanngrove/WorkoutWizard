@@ -2,15 +2,12 @@ import styled from "styled-components";
 
 const StyledHeader = styled.header`
   padding: 2rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   min-width: 420px;
-
-  @media (width > 910px) {
-    margin-left: 15vw;
-    margin-right: 15vw;
-  }
+  margin: 0 1rem;
+  position: relative;
+  transition: margin ease 1s;
 `;
 
 export default StyledHeader;

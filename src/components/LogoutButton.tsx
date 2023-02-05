@@ -26,10 +26,16 @@ const Logout = styled.button`
   color: white;
   font-weight: bold;
   font-size: 1.25rem;
-  margin-left: auto;
   cursor: pointer;
+  position: absolute;
+  right: 1rem;
+  transition: right ease 1s;
 
   &:hover {
     color: var(--accent-500);
+  }
+
+  @media (width > 910px) {
+    right: 15vw;
   }
 `;

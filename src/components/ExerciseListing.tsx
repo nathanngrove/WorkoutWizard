@@ -20,23 +20,14 @@ export default function ExerciseListing({
 }) {
   return (
     <>
-      {set.map((set, i) => {
-        if (i === 0) {
-          return (
-            <>
-              <FirstColumn>{exercise.name}</FirstColumn>
-              <SecondColumn>{set.set.reps}</SecondColumn>
-              <ThirdColumn>{set.set.weight}</ThirdColumn>
-            </>
-          );
-        } else {
-          return (
-            <>
-              <SecondColumn>{set.set.reps}</SecondColumn>
-              <ThirdColumn>{set.set.weight}</ThirdColumn>
-            </>
-          );
-        }
+      <FirstColumn>{exercise.name}</FirstColumn>
+      {set.map((set) => {
+        return (
+          <>
+            <SecondColumn>{set.set.reps}</SecondColumn>
+            <ThirdColumn>{set.set.weight}</ThirdColumn>
+          </>
+        );
       })}
       <AddSet exerciseId={exercise.id} sessionId={sessionId} />
     </>

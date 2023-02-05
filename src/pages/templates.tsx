@@ -11,12 +11,14 @@ const Templates: NextPage = () => {
   const templates = api.templates.getAllTemplates.useQuery();
 
   return (
-    <Main>
+    <>
       <Header />
-      {templates.data?.map((data) => {
-        return <TemplateListing template={data} key={data.id} />;
-      })}
-    </Main>
+      <Main>
+        {templates.data?.map((data) => {
+          return <TemplateListing template={data} key={data.id} />;
+        })}
+      </Main>
+    </>
   );
 };
 

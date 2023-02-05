@@ -17,6 +17,7 @@ export default function Header() {
   );
 }
 
-const Title = styled.h1`
-  margin-left: auto;
+const Title = styled.a`
+  font-size: 2rem;
+  font-weight: bold;
 `;

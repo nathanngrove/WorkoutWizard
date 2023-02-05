@@ -6,6 +6,8 @@ const Main = styled.main`
   justify-content: center;
   min-width: 420px;
   position: relative;
+  margin: 0 1rem;
+  transition: margin ease 1s;
 
   @media (width > 910px) {
     margin-left: 15vw;

@@ -1,6 +1,10 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { TRPCError } from "@trpc/server";
-import { getSessionSchema } from "../../../schema/session.schema";
+import {
+  createSessionFromTemplateSchema,
+  getSessionSchema,
+  SessionData,
+} from "../../../schema/session.schema";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const sessionsRouter = createTRPCRouter({
@@ -9,12 +13,11 @@ export const sessionsRouter = createTRPCRouter({
       throw new TRPCError({ code: "UNAUTHORIZED", message: "No user found" });
     }
 
-    const session = await ctx.prisma.session.create({
+    return await ctx.prisma.session.create({
       data: {
         userId: ctx.user.id,
       },
     });
-    return session;
   }),
   getSession: publicProcedure
     .input(getSessionSchema)
@@ -72,6 +75,31 @@ export const sessionsRouter = createTRPCRouter({
 
       return await ctx.prisma.session.delete({
         where: { id },
+      });
+    }),
+  createSessionFromTemplate: publicProcedure
+    .input(createSessionFromTemplateSchema)
+    .mutation(async ({ ctx, input }) => {
+      if (!ctx.user) {
+        throw new TRPCError({ code: "UNAUTHORIZED", message: "No user found" });
+      }
+
+      const { exercises } = input;
+
+      const sessionData: Array<SessionData> = [];
+
+      const session = await ctx.prisma.session.create({
+        data: {
+          userId: ctx.user.id,
+        },
+      });
+
+      exercises.forEach((id) => {
+        sessionData.push({ sessionId: session.id, exerciseId: id });
+      });
+
+      return await ctx.prisma.exercisesOnSessions.createMany({
+        data: [...sessionData],
       });
     }),
 });

@@ -59,7 +59,6 @@ const Session: NextPage = () => {
   return (
     <>
       <Header />
-
       <Main>
         <h1>{weekdayFormatter.format(getSession.data?.createdAt)}</h1>
         <h2>{dateFormatter.format(getSession.data?.createdAt)}</h2>

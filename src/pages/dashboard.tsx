@@ -74,8 +74,8 @@ const Dashboard: NextPage = () => {
 
   return (
     <>
+      <Header />
       <Main>
-        <Header />
         <Section>
           <SectionHeading>Start a new session</SectionHeading>
           {error && error.message}
