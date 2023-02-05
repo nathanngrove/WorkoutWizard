@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import {
   createTemplateSchema,
-  TemplateData,
+  type TemplateData,
 } from "../../../schema/template.schema";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 

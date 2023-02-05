@@ -17,7 +17,7 @@ const TemplateNameModal = ({
   setOpen,
 }: {
   exercises: Array<string>;
-  setOpen: Function;
+  setOpen: (arg1: boolean) => void;
 }) => {
   const [templateName, setTemplateName] = useState("");
 
@@ -36,7 +36,7 @@ const TemplateNameModal = ({
         {error && <ModalMessage>⚠️ {error.message}</ModalMessage>}
         {!error && <ModalMessage></ModalMessage>}
         <ModalFormFlexContainer
-          onSubmit={(e) => {
+          onSubmit={() => {
             mutate({ name: templateName, exercises });
           }}
         >

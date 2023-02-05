@@ -49,9 +49,9 @@ function getUserFromRequest(req: NextApiRequest) {
   return null;
 }
 
-export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
+export const createTRPCContext = (_opts: CreateNextContextOptions) => {
   const { req, res } = _opts;
-  const user = await getUserFromRequest(req);
+  const user = getUserFromRequest(req);
 
   return {
     req,

@@ -54,7 +54,7 @@ export default function RegisterModal({
         {error && <ModalMessage>⚠️ {error.message}</ModalMessage>}
         {!error && <ModalMessage></ModalMessage>}
         <ModalFormFlexContainer
-          onSubmit={async (e) => {
+          onSubmit={(e) => {
             e.preventDefault();
             mutate({
               name:

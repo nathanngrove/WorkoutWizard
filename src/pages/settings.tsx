@@ -22,7 +22,7 @@ const Settings: NextPage = () => {
         <h1>Settings</h1>
         {error && error.message}
         <form
-          onSubmit={async (e) => {
+          onSubmit={(e) => {
             e.preventDefault();
             mutate({ email });
           }}
