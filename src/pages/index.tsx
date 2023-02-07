@@ -86,7 +86,7 @@ const GridContainer = styled.main`
 const TagLine = styled.p`
   font-size: 2.5rem;
   text-align: center;
-  width: 20ch;
+  width: 30rem;
 `;
 
 const SignInLine = styled.p`
