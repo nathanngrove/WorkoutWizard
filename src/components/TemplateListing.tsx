@@ -1,4 +1,6 @@
 import type { ExercisesOnTemplates, Template, Exercise } from "@prisma/client";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -14,8 +16,14 @@ const TemplateListing = ({
     })[];
   };
 }) => {
+  const router = useRouter();
+
   const createSessionFromTemplate =
-    api.sessions.createSessionFromTemplate.useMutation();
+    api.sessions.createSessionFromTemplate.useMutation({
+      onSuccess(data) {
+        void router.push(`/session/${data.id}`);
+      },
+    });
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -25,6 +33,12 @@ const TemplateListing = ({
     if (exercise.exerciseId === null) return;
     exercisesOnTemplate.push(exercise.exerciseId);
   });
+
+  function useTemplate() {
+    createSessionFromTemplate.mutate({
+      exercises: exercisesOnTemplate,
+    });
+  }
 
   return (
     <TemplateListingWrapper>
@@ -47,13 +61,7 @@ const TemplateListing = ({
             {template.exercises.map((exercise) => {
               return <p key={exercise.exerciseId}>{exercise.exercise?.name}</p>;
             })}
-            <UseTemplateButton
-              onClick={() =>
-                createSessionFromTemplate.mutate({
-                  exercises: exercisesOnTemplate,
-                })
-              }
-            >
+            <UseTemplateButton onClick={useTemplate}>
               Use template
             </UseTemplateButton>
           </>

@@ -11,6 +11,10 @@ const ExercisesGrid = styled.div`
   color: black;
   font-size: 1.25rem;
   margin-top: 1rem;
+
+  @media (width < 600px) {
+    width: 100%;
+  }
 `;
 
 const FirstColumn = styled.span`

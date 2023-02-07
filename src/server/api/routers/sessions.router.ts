@@ -98,8 +98,11 @@ export const sessionsRouter = createTRPCRouter({
         sessionData.push({ sessionId: session.id, exerciseId: id });
       });
 
-      return await ctx.prisma.exercisesOnSessions.createMany({
+      const exercisesAdded = await ctx.prisma.exercisesOnSessions.createMany({
         data: [...sessionData],
+        skipDuplicates: true,
       });
+
+      return session;
     }),
 });

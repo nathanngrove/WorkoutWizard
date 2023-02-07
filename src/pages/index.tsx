@@ -76,9 +76,8 @@ const Home: NextPage = () => {
 };
 
 const GridContainer = styled.main`
-  height: 100vh;
-  width: 100vw;
   display: grid;
+  height: 100vh;
   grid-template-rows: repeat(3, 1fr);
   place-items: center;
 `;
@@ -86,7 +85,7 @@ const GridContainer = styled.main`
 const TagLine = styled.p`
   font-size: 2.5rem;
   text-align: center;
-  width: 30rem;
+  width: 23rem;
 `;
 
 const SignInLine = styled.p`

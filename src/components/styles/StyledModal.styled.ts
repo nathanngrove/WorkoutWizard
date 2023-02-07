@@ -4,8 +4,8 @@ const Modal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: hsl(0 0% 10% / 0.7);
   position: absolute;
   top: 0;

@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
@@ -21,7 +22,16 @@ export default function LogoutButton() {
     mutate();
   }
 
-  return <Logout onClick={logout}>Logout</Logout>;
+  return (
+    <Logout onClick={logout}>
+      <Image
+        src={"/logoutIcon.svg"}
+        width={24}
+        height={24}
+        alt="Logout"
+      ></Image>
+    </Logout>
+  );
 }
 
 const Logout = styled.button`
@@ -32,7 +42,9 @@ const Logout = styled.button`
   font-size: 1.25rem;
   cursor: pointer;
   position: absolute;
-  right: 1rem;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   transition: right ease 1s;
 
   &:hover {

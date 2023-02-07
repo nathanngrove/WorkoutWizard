@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styled from "styled-components";
 import { useUserContext } from "../context/user.context";
 import LogoutButton from "./LogoutButton";
@@ -9,9 +10,11 @@ export default function Header() {
 
   return (
     <StyledHeader>
-      <Title>
-        Workout<Purple>Wizard</Purple>
-      </Title>
+      <Link href="/" passHref>
+        <Title>
+          Workout<Purple>Wizard</Purple>
+        </Title>
+      </Link>
       {user && <LogoutButton />}
     </StyledHeader>
   );
@@ -20,4 +23,5 @@ export default function Header() {
 const Title = styled.a`
   font-size: 2rem;
   font-weight: bold;
+  cursor: pointer;
 `;

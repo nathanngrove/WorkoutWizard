@@ -18,6 +18,7 @@ const StyledButton = styled.button<ButtonProps>`
   border: none;
   border-radius: 10px;
   font-weight: bold;
+  cursor: pointer;
 
   &:hover,
   &:focus-within {
@@ -28,6 +29,7 @@ const StyledButton = styled.button<ButtonProps>`
     background-color: ${({ disabledBackground }) =>
       disabledBackground ? disabledBackground : "darkgray"};
     color: ${({ disabledColor }) => (disabledColor ? disabledColor : "black")};
+    cursor: wait;
   }
 `;
 
