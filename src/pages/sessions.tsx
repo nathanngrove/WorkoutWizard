@@ -58,7 +58,7 @@ const Dashboard: NextPage = () => {
   }
 
   function startFromTemplate() {
-    void router.push("/templates");
+    void router.push("/sessions/templates");
     return <StatusMessage message="Redirecting..." />;
   }
 
