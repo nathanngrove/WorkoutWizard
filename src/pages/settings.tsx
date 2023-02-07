@@ -12,7 +12,7 @@ const Settings: NextPage = () => {
 
   const { mutate, error, isLoading } = api.users.deleteUser.useMutation({
     onSuccess: () => {
-      router.push("/create-account");
+      void router.push("/create-account");
     },
   });
 

@@ -22,7 +22,8 @@ const TemplateListing = ({
   const exercisesOnTemplate: Array<string> = [];
 
   template.exercises.forEach((exercise) => {
-    exercisesOnTemplate.push(exercise.exerciseId!);
+    if (exercise.exerciseId === null) return;
+    exercisesOnTemplate.push(exercise.exerciseId);
   });
 
   return (

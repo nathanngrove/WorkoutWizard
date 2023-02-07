@@ -22,7 +22,7 @@ const Home: NextPage = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
   if (user) {
-    router.push("/dashboard");
+    void router.push("/dashboard");
     return <StatusMessage message="Redirecting..." />;
   }
 

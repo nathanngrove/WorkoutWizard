@@ -11,13 +11,17 @@ export default function LogoutButton() {
 
   const { mutate } = api.users.deleteUserToken.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries();
-      router.push("/");
+      void queryClient.invalidateQueries();
+      void router.push("/");
       return <StatusMessage message="Redirecting..." />;
     },
   });
 
-  return <Logout onClick={() => mutate()}>Logout</Logout>;
+  function logout() {
+    mutate();
+  }
+
+  return <Logout onClick={logout}>Logout</Logout>;
 }
 
 const Logout = styled.button`

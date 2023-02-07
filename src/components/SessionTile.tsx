@@ -54,7 +54,7 @@ function SquareMenu({ id }: { id: string }) {
 
   const deleteSession = api.sessions.deleteSession.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
     },
   });
 

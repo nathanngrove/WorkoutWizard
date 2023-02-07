@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 import { api } from "../utils/api";
 import StyledInput from "./styles/StyledInput.styled";
@@ -35,7 +35,7 @@ export default function RegisterModal({
 
   const { mutate, error, isLoading } = api.users.addUser.useMutation({
     onSuccess: () => {
-      router.push("/dashboard");
+      void router.push("/dashboard");
       return <StatusMessage message="Redirecting..." />;
     },
   });
@@ -43,6 +43,17 @@ export default function RegisterModal({
   const closeModal = () => {
     setIsRegisterOpen(false);
   };
+
+  function registerUser(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    mutate({
+      name:
+        firstLetterToUpperCase(firstName) +
+        " " +
+        firstLetterToUpperCase(lastName),
+      email: email.toLowerCase(),
+    });
+  }
 
   return (
     <Modal>
@@ -53,18 +64,7 @@ export default function RegisterModal({
         <ModalHeading>Register</ModalHeading>
         {error && <ModalMessage>⚠️ {error.message}</ModalMessage>}
         {!error && <ModalMessage></ModalMessage>}
-        <ModalFormFlexContainer
-          onSubmit={(e) => {
-            e.preventDefault();
-            mutate({
-              name:
-                firstLetterToUpperCase(firstName) +
-                " " +
-                firstLetterToUpperCase(lastName),
-              email: email.toLowerCase(),
-            });
-          }}
-        >
+        <ModalFormFlexContainer onSubmit={(event) => registerUser(event)}>
           <StyledLabel htmlFor="firstName">First Name: </StyledLabel>
           <StyledInput
             type="text"

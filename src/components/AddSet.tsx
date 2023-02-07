@@ -28,7 +28,7 @@ export default function AddSet({
     onSuccess: () => {
       setReps("");
       setWeight("");
-      queryClient.invalidateQueries(getAllExercises);
+      void queryClient.invalidateQueries(getAllExercises);
     },
   });
 

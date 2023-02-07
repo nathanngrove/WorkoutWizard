@@ -25,7 +25,7 @@ export default function AddExercise({ sessionId }: { sessionId: string }) {
       setExercise("");
       setReps("");
       setWeight("");
-      queryClient.invalidateQueries(getAllExercises);
+      void queryClient.invalidateQueries(getAllExercises);
     },
   });
 

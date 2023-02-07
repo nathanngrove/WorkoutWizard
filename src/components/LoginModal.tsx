@@ -73,7 +73,7 @@ export default function LoginModal({
             </ModalButton>
           </ModalFormFlexContainer>
           <ModalTextCenter>
-            Don't have an account yet?
+            Don&apos;t have an account yet?
             <br />
             <ButtonLink
               onClick={() => {

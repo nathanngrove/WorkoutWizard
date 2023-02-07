@@ -23,7 +23,7 @@ function VerifyToken({ hash }: { hash: string }) {
         return <StatusMessage message={error.message} />;
       },
       onSuccess: (data) => {
-        router.push(data.redirect === "/" ? "/dashboard" : data.redirect);
+        void router.push(data.redirect === "/" ? "/dashboard" : data.redirect);
         return <StatusMessage message="Redirecting..." />;
       },
     }
@@ -39,9 +39,9 @@ const Dashboard: NextPage = () => {
 
   const queryAllSessions = api.sessions.getAllSessions.useQuery();
   const { mutate, error, isLoading } = api.sessions.addSession.useMutation({
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries(queryAllSessions);
-      router.push(`/session/${data?.id}`);
+    onSuccess: (data) => {
+      void queryClient.invalidateQueries(queryAllSessions);
+      void router.push(`/session/${data?.id}`);
       return <StatusMessage message="Redirecting..." />;
     },
   });
@@ -58,7 +58,7 @@ const Dashboard: NextPage = () => {
   }
 
   function startFromTemplate() {
-    router.push("/templates");
+    void router.push("/templates");
     return <StatusMessage message="Redirecting..." />;
   }
 
