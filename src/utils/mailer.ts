@@ -29,10 +29,10 @@ export async function sendLoginEmail({
   console.log(response);
 
   const message = {
-    from: '"Workout Tracker" <nathangrove08@gmail.com>',
+    from: '"Workout Tracker" <workoutwizardapp@gmail.com>',
     to: email,
     subject: "Login to your account",
-    html: `Login by click here <a href="${url}/dashboard#token=${token}">Login</a>`,
+    html: `Login by clicking here <a href="${url}/sessions#token=${token}">Login</a>`,
   };
 
   const responseMessage = await new Promise((resolve) => {
