@@ -2,7 +2,6 @@
 
 Autocomplete typing in an Exercise
 Implement ability to add Cardio exercises
-Add a back to sessions button on most pages
 Complete settings page
 -Styles
 -Delete all sessions button

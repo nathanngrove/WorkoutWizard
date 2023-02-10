@@ -10,7 +10,7 @@ export default function Header() {
 
   return (
     <StyledHeader>
-      <Link href="/" passHref>
+      <Link href="/sessions" passHref legacyBehavior>
         <Title>
           Workout<Purple>Wizard</Purple>
         </Title>

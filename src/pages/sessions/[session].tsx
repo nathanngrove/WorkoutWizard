@@ -19,6 +19,7 @@ import {
   SecondColumn,
   ThirdColumn,
 } from "../../components/styles/StyledGrid.styled";
+import BackTo from "../../components/styles/BackToLink.styled";
 
 const Session: NextPage = () => {
   const user = useUserContext();
@@ -60,6 +61,7 @@ const Session: NextPage = () => {
     <>
       <Header />
       <Main>
+        <BackTo href="/sessions">Back to sessions</BackTo>
         <h1>{weekdayFormatter.format(getSession.data?.createdAt)}</h1>
         <h2>{dateFormatter.format(getSession.data?.createdAt)}</h2>
         <Button onClick={() => setIsOpen(true)}>Create Template</Button>

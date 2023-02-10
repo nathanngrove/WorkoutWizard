@@ -1,4 +1,5 @@
 import { type NextPage } from "next";
+import BackTo from "../../components/styles/BackToLink.styled";
 import Header from "../../components/Header";
 import LoginOrRegisterModal from "../../components/LoginOrRegisterModal";
 import Main from "../../components/styles/StyledMain.styled";
@@ -19,6 +20,7 @@ const Templates: NextPage = () => {
     <>
       <Header />
       <Main>
+        <BackTo href="/sessions">Back to sessions</BackTo>
         {templates.data?.map((data) => {
           return <TemplateListing template={data} key={data.id} />;
         })}

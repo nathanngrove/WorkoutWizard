@@ -52,6 +52,7 @@ export default function AddSet({
       <StyledInput
         id="reps"
         type="text"
+        inputMode="numeric"
         placeholder="Reps"
         onChange={(e) => {
           setReps(e.target.value);
@@ -63,6 +64,7 @@ export default function AddSet({
       <StyledInput
         id="weight"
         type="text"
+        inputMode="numeric"
         placeholder="Weight"
         onChange={(e) => {
           setWeight(e.target.value);

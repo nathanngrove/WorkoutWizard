@@ -23,7 +23,7 @@ export default function SessionTile({
 
   return (
     <Tile>
-      <Link href={`/session/${session.id}`}>
+      <Link href={`/sessions/${session.id}`}>
         <Date>{weekdayFormatter.format(session.createdAt)}</Date>
         <Date>{dateFormatter.format(session.createdAt)}</Date>
       </Link>

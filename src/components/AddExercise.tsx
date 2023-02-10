@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { api } from "../utils/api";
@@ -29,6 +29,12 @@ export default function AddExercise({ sessionId }: { sessionId: string }) {
     },
   });
 
+  function updateExerciseState(event: ChangeEvent<HTMLInputElement>) {}
+
+  function updateRepsState(event: ChangeEvent<HTMLInputElement>) {}
+
+  function updateWeightState(event: ChangeEvent<HTMLInputElement>) {}
+
   function addExercise() {
     if (exercise === "" || reps === "" || weight === "") return;
 
@@ -50,9 +56,7 @@ export default function AddExercise({ sessionId }: { sessionId: string }) {
         id="exercise"
         type="text"
         placeholder="Exercise"
-        onChange={(e) => {
-          setExercise(e.target.value);
-        }}
+        onChange={(e) => updateExerciseState(e)}
         value={exercise}
         gridPosition="1 / 2"
         size={1}
@@ -60,10 +64,10 @@ export default function AddExercise({ sessionId }: { sessionId: string }) {
       <StyledInput
         id="reps"
         type="text"
+        inputMode="numeric"
+        pattern="[0-9]+"
         placeholder="Reps"
-        onChange={(e) => {
-          setReps(e.target.value);
-        }}
+        onChange={(e) => updateRepsState(e)}
         value={reps}
         gridPosition="2 / 3"
         size={1}
@@ -71,10 +75,10 @@ export default function AddExercise({ sessionId }: { sessionId: string }) {
       <StyledInput
         id="weight"
         type="text"
+        inputMode="numeric"
+        pattern="[0-9]+"
         placeholder="Weight"
-        onChange={(e) => {
-          setWeight(e.target.value);
-        }}
+        onChange={(e) => updateWeightState(e)}
         value={weight}
         gridPosition="3 / 4"
         size={1}

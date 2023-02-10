@@ -50,7 +50,11 @@ export default function LoginModal({
           <ModalHeading>Log in</ModalHeading>
           <div>
             {error && <ModalMessage>⚠️ {error.message}</ModalMessage>}
-            {success && <ModalMessage>✅ Check your email!</ModalMessage>}
+            {success && (
+              <ModalMessage>
+                ✅ Check your email! *Check your spam folder!!*
+              </ModalMessage>
+            )}
             {!error && !success && <ModalMessage></ModalMessage>}
           </div>
           <ModalFormFlexContainer
