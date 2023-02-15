@@ -33,13 +33,17 @@ const FourthColumn = styled.span`
   grid-column: 4 / 5;
 `;
 
-const GridButton = styled.button`
+interface ButtonOptions {
+  gridPosition?: string;
+}
+
+const GridButton = styled.button<ButtonOptions>`
   border: 1px solid transparent;
   background-color: var(--accent-500);
   font-size: 1.25rem;
   color: white;
   font-weight: bold;
-  grid-column: 4 / 5;
+  grid-column: ${({ gridPosition }) => (gridPosition ? gridPosition : null)};
   cursor: pointer;
   border-radius: 10px;
   width: 3ch;
@@ -51,6 +55,10 @@ const GridButton = styled.button`
   }
 `;
 
+const ErrorMessage = styled.p`
+  grid-column: 1 / 5;
+`;
+
 export {
   ExercisesGrid,
   FirstColumn,
@@ -58,4 +66,5 @@ export {
   ThirdColumn,
   FourthColumn,
   GridButton,
+  ErrorMessage,
 };

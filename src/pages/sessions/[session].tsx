@@ -25,7 +25,7 @@ const Session: NextPage = () => {
   const user = useUserContext();
   const router = useRouter();
 
-  const sessionId = router.asPath.split("session/")[1] || "";
+  const sessionId = router.asPath.split("sessions/")[1] || "";
 
   const [isOpen, setIsOpen] = useState(false);
 

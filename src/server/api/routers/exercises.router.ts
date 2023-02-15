@@ -1,3 +1,4 @@
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { TRPCError } from "@trpc/server";
 import {
   addExerciseSchema,
@@ -14,19 +15,7 @@ export const exercisesRouter = createTRPCRouter({
         throw new TRPCError({ code: "UNAUTHORIZED", message: "No user found" });
       }
 
-      const { name, sessionId, reps, weight } = input;
-
-      const isExerciseOnSession =
-        await ctx.prisma.exercisesOnSessions.findFirst({
-          where: { sessionId, exercise: { name } },
-        });
-
-      if (isExerciseOnSession) {
-        throw new TRPCError({
-          code: "CONFLICT",
-          message: "Exercise already exists on this session",
-        });
-      }
+      const { name, sessionId } = input;
 
       try {
         const addedExercise = await ctx.prisma.exercisesOnSessions.create({
@@ -37,20 +26,21 @@ export const exercisesRouter = createTRPCRouter({
             session: { connect: { id: sessionId } },
           },
         });
-
-        return await ctx.prisma.setsOnExercises.create({
-          data: {
-            exerciseOnSession: { connect: { id: addedExercise.id } },
-            set: {
-              connectOrCreate: {
-                create: { reps, weight },
-                where: { weight_reps: { reps, weight } },
-              },
-            },
-          },
-        });
+        return addedExercise;
       } catch (e) {
-        throw e;
+        if (e instanceof PrismaClientKnownRequestError) {
+          if (e.code === "P2002") {
+            throw new TRPCError({
+              code: "CONFLICT",
+              message: "That exercise is already on this session!",
+            });
+          }
+
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Something went wrong",
+          });
+        }
       }
     }),
   addSetToExercise: publicProcedure
@@ -77,7 +67,10 @@ export const exercisesRouter = createTRPCRouter({
           },
         });
       } catch (e) {
-        throw e;
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something went wrong",
+        });
       }
     }),
   getAllExercises: publicProcedure
@@ -103,7 +96,10 @@ export const exercisesRouter = createTRPCRouter({
         });
         return exercises;
       } catch (e) {
-        throw e;
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something went wrong",
+        });
       }
     }),
 });

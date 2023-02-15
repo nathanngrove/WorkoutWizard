@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { api } from "../utils/api";
 import StyledInput from "./styles/StyledInput.styled";
-import { GridButton } from "./styles/StyledGrid.styled";
+import { ErrorMessage, GridButton } from "./styles/StyledGrid.styled";
 
 export default function AddSet({
   exerciseId,
@@ -16,6 +16,8 @@ export default function AddSet({
 
   const [reps, setReps] = useState("");
   const [weight, setWeight] = useState("");
+  const [hasEmptyInputOnSubmit, setHasEmptyInputOnSubmit] = useState(false);
+  const pattern = /^\d+$/;
 
   const getAllExercises = api.exercises.getAllExercises.useQuery(
     {
@@ -32,19 +34,28 @@ export default function AddSet({
     },
   });
 
-  function addSet() {
-    if (reps === "" || weight === "") return;
-
-    mutate({
-      reps: parseInt(reps),
-      weight: parseInt(weight),
-      exerciseId,
-      sessionId,
-    });
+  function updateReps(repsInputString: string) {
+    if (pattern.test(repsInputString) || repsInputString === "")
+      setReps(repsInputString);
   }
 
-  if (error) {
-    return <p>{error.message}</p>;
+  function updateWeight(weightInputString: string) {
+    if (pattern.test(weightInputString) || weightInputString === "")
+      setWeight(weightInputString);
+  }
+
+  function addSet() {
+    if (reps === "" || weight === "") {
+      setHasEmptyInputOnSubmit(true);
+    } else {
+      mutate({
+        reps: parseInt(reps),
+        weight: parseInt(weight),
+        exerciseId,
+        sessionId,
+      });
+      setHasEmptyInputOnSubmit(false);
+    }
   }
 
   return (
@@ -55,7 +66,7 @@ export default function AddSet({
         inputMode="numeric"
         placeholder="Reps"
         onChange={(e) => {
-          setReps(e.target.value);
+          updateReps(e.target.value);
         }}
         value={reps}
         gridPosition="2 / 3"
@@ -67,13 +78,21 @@ export default function AddSet({
         inputMode="numeric"
         placeholder="Weight"
         onChange={(e) => {
-          setWeight(e.target.value);
+          updateWeight(e.target.value);
         }}
         value={weight}
         gridPosition="3 / 4"
         size={1}
       />
-      <GridButton onClick={addSet}>+</GridButton>
+      <GridButton onClick={addSet} gridPosition="4 / 5">
+        +
+      </GridButton>
+      {error && <ErrorMessage>⚠️ {error.message}</ErrorMessage>}
+      {hasEmptyInputOnSubmit && (
+        <ErrorMessage>
+          ⚠️ You must enter reps and weight to add the set
+        </ErrorMessage>
+      )}
     </>
   );
 }

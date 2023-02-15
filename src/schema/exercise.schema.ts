@@ -3,8 +3,6 @@ import z from "zod";
 export const addExerciseSchema = z.object({
   name: z.string(),
   sessionId: z.string(),
-  reps: z.number(),
-  weight: z.number(),
 });
 
 export const getAllExercisesSchema = z.object({
