@@ -33,28 +33,30 @@ const Session: NextPage = () => {
     return <LoginOrRegisterModal displayClose={false} />;
   }
 
-  const getAllExercises = api.exercises.getAllExercises.useQuery({
-    sessionId,
-  });
+  const allExercisesOnSession = api.exercises.getAllExercisesOnSession.useQuery(
+    {
+      sessionId,
+    }
+  );
 
   const getSession = api.sessions.getSession.useQuery({ id: sessionId });
 
   function getExercisesArray() {
     const exerciseIds: Array<string> = [];
 
-    getAllExercises.data?.forEach((exercise) => {
+    allExercisesOnSession.data?.forEach((exercise) => {
       exerciseIds.push(exercise.exerciseId);
     });
 
     return exerciseIds;
   }
 
-  if (getAllExercises.isLoading) {
+  if (allExercisesOnSession.isLoading) {
     return <p>Loading...</p>;
   }
 
-  if (getAllExercises.error) {
-    return <p>{getAllExercises.error.message}</p>;
+  if (allExercisesOnSession.error) {
+    return <p>{allExercisesOnSession.error.message}</p>;
   }
 
   return (
@@ -75,7 +77,7 @@ const Session: NextPage = () => {
           <ThirdColumn>
             <TableHeading>Weight</TableHeading>
           </ThirdColumn>
-          {getAllExercises.data.map((exercise) => (
+          {allExercisesOnSession.data.map((exercise) => (
             <ExerciseListing
               key={exercise.id}
               exercise={exercise.exercise}

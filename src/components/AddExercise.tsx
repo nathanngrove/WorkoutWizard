@@ -5,13 +5,16 @@ import { api } from "../utils/api";
 import firstLetterToUpperCase from "../utils/uppercaseFirstLetter";
 import StyledInput from "./styles/StyledInput.styled";
 import { GridButton, ErrorMessage } from "./styles/StyledGrid.styled";
+import styled from "styled-components";
 
 export default function AddExercise({ sessionId }: { sessionId: string }) {
   const queryClient = useQueryClient();
 
   const [exercise, setExercise] = useState("");
 
-  const getAllExercises = api.exercises.getAllExercises.useQuery(
+  const allExercises = api.exercises.getAllExercises.useQuery();
+
+  const allExercisesOnSession = api.exercises.getAllExercisesOnSession.useQuery(
     {
       sessionId,
     },
@@ -21,7 +24,7 @@ export default function AddExercise({ sessionId }: { sessionId: string }) {
   const { mutate, error } = api.exercises.addExerciseToSession.useMutation({
     onSuccess: () => {
       setExercise("");
-      void queryClient.invalidateQueries(getAllExercises);
+      void queryClient.invalidateQueries(allExercisesOnSession);
     },
   });
 
@@ -40,14 +43,15 @@ export default function AddExercise({ sessionId }: { sessionId: string }) {
         id="exercise"
         type="text"
         placeholder="Exercise"
-        onChange={(e) => setExercise(e.target.value)}
+        onChange={(e) => {
+          setExercise(e.target.value);
+        }}
         value={exercise}
-        gridPosition="1 / 2"
         size={1}
+        gridPosition="1 / 2"
       />
-      <GridButton onClick={addExercise} gridPosition="2 / 3">
-        +
-      </GridButton>
+      <GridButton onClick={addExercise}>+</GridButton>
+
       {error && <ErrorMessage>⚠️ {error.message}</ErrorMessage>}
     </>
   );

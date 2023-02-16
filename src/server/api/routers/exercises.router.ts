@@ -73,7 +73,7 @@ export const exercisesRouter = createTRPCRouter({
         });
       }
     }),
-  getAllExercises: publicProcedure
+  getAllExercisesOnSession: publicProcedure
     .input(getAllExercisesSchema)
     .query(async ({ ctx, input }) => {
       if (!ctx.user) {
@@ -102,4 +102,7 @@ export const exercisesRouter = createTRPCRouter({
         });
       }
     }),
+  getAllExercises: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.exercise.findMany();
+  }),
 });

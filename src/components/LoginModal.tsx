@@ -61,7 +61,7 @@ export default function LoginModal({
           >
             <StyledLabel htmlFor="email">Email</StyledLabel>
             <StyledInput
-              type="text"
+              type="email"
               id="email"
               placeholder="johndoe@example.com"
               onChange={(e) => {

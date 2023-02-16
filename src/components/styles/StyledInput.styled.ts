@@ -14,6 +14,8 @@ const StyledInput = styled.input<InputOptions>`
   font-size: 1.25rem;
   ${({ gridPosition }) =>
     gridPosition ? `grid-column: ${gridPosition}` : null};
+  position: relative;
+  margin-right: 0.5rem;
 `;
 
 export default StyledInput;

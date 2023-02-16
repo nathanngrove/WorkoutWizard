@@ -19,7 +19,7 @@ export default function AddSet({
   const [hasEmptyInputOnSubmit, setHasEmptyInputOnSubmit] = useState(false);
   const pattern = /^\d+$/;
 
-  const getAllExercises = api.exercises.getAllExercises.useQuery(
+  const allExercisesOnSession = api.exercises.getAllExercisesOnSession.useQuery(
     {
       sessionId,
     },
@@ -30,7 +30,7 @@ export default function AddSet({
     onSuccess: () => {
       setReps("");
       setWeight("");
-      void queryClient.invalidateQueries(getAllExercises);
+      void queryClient.invalidateQueries(allExercisesOnSession);
     },
   });
 

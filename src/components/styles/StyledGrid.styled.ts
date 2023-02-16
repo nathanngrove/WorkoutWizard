@@ -12,7 +12,7 @@ const ExercisesGrid = styled.div`
   font-size: 1.25rem;
   margin-top: 1rem;
 
-  @media (width < 600px) {
+  @media (width < 850px) {
     width: 100%;
   }
 `;
