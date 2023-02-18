@@ -8,7 +8,7 @@ const Modal = styled.div`
   height: 100%;
   background-color: hsl(0 0% 10% / 0.7);
   z-index: 1;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
 `;
